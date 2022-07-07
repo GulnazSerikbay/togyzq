@@ -1,0 +1,26 @@
+.board {
+    background-color: #9a8572;
+    width: 65vw;
+    height: 40vw;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+#ball {
+    width: 1.5vw;
+    height: 1.5vw;
+    margin: 4px;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+}
+
+.ballSpace {
+    width: 100%;
+    padding-top: 10%;
+    display: grid;
+    grid-template-columns: auto auto;
+}
