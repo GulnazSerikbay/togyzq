@@ -4,7 +4,7 @@ import './Chat.css';
 function Chat(props) {
     return (
         
-            <div className='chat mb-2 ' style={{display: "flex", marginLeft: "10px;", flexDirection: "column", justifyContent: "flex-end", alignItems:'flex-start'}}>
+            <div className='chat mb-2 ' style={{display: "flex", marginLeft: "10px", flexDirection: "column", justifyContent: "flex-end", alignItems:'flex-start'}}>
                 <div className ="mb-2 chatel">
                     Game launched: Date
                 </div>
