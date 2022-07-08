@@ -4,18 +4,30 @@ import {useState} from 'react';
 import Ball from './Ball.js';
 import { useEffect } from 'react';
 
+
+
+
+
 function Container(props) {
     const [balls, setBalls] = useState(props.count);
+    const [balllist, setBalllist] = useState([]);
+
 
     useEffect(() => {
-        setBalls(props.count)
+        console.log(balls);
+        setBalls(props.count);
+        console.log(balls);
+        let list = []
+        for (let i = 0; i < balls; i++) {
+            list.push(<Ball color="brown" />);
+        }
+        setBalllist(list);
+
     }, [props.count])
 
-    let balllist = [];
-    for (let i = 0; i < balls; i++) {
-        balllist.push(<Ball color="brown" />);
-    }
-    console.log('balllist', balllist)
+    
+
+    //console.log('balllist', balllist)
     return (
        
             <div 
@@ -35,8 +47,25 @@ function Container(props) {
 }
 
 function Qazan(props) {
+    const [qazan, setQazan] = useState([]);
+    
+    useEffect(() => {
+        console.log(props.count);
+        console.log(qazan);
+        let list = []
+        for (let i = 0; i < props.count; i++) {
+            list.push(<Ball color="brown" />);
+        }
+        setQazan(list);
+
+    }, [props.count])
+
     return (
-        <button className='qazan btn'></button>
+        <div className = "qazan">
+        {qazan.map(x => x)}
+        
+        </div>
+      
     );
 }
 export {Container, Qazan};
