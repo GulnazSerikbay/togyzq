@@ -6,17 +6,14 @@ import Chat from './components/Chat.js';
 import { useState } from 'react';
 
 function Game(props) {
-  
-
-    const winner = ''
-  
+    
     const [board, setBoard] = useState({
       qazan1: 0,
       qazan2: 0,
       
       container1: [9,9,9,9,9,9,9,9,9],
       container2: [9,9,9,9,9,9,9,9,9],
-    
+      
       tuzdyq1:1,
       tuzdyq2:1
     
@@ -29,9 +26,9 @@ function Game(props) {
         <div className='wrapper'> 
           <Board 
               tuzdyq1 = {board.tuzdyq1} 
-              tuzdyq2 = {board.tuzdyq2} 
-              balls1={board.container1}
-              balls2= {board.container2}/>
+              tuzdyq2 = {board.tuzdyq2}
+               
+          />
   
           <div className='rightside col'> 
             <User id="0" score={board.qazan1}/>

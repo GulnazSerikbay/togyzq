@@ -9,20 +9,22 @@ import { useEffect } from 'react';
 
 
 function Container(props) {
-    const [balls, setBalls] = useState(props.count);
+    const [balls, setBalls] = useState(0);
     const [balllist, setBalllist] = useState([]);
 
 
     useEffect(() => {
-        console.log(balls);
-        setBalls(props.count);
-        console.log(balls);
+        console.log("object",props);
+        //if(props.count){
+        //console.log(balls);
+        // setBalls(props.count);
         let list = []
-        for (let i = 0; i < balls; i++) {
+        for (let i = 0; i < props.count; i++) {
             list.push(<Ball color="brown" />);
         }
-        setBalllist(list);
-
+        //console.log("list",list);
+        setBalllist([...list]);
+     //   }
     }, [props.count])
 
     
@@ -50,8 +52,8 @@ function Qazan(props) {
     const [qazan, setQazan] = useState([]);
     
     useEffect(() => {
-        console.log(props.count);
-        console.log(qazan);
+       // console.log(props.count);
+        //console.log(qazan);
         let list = []
         for (let i = 0; i < props.count; i++) {
             list.push(<Ball color="brown" />);
@@ -61,7 +63,7 @@ function Qazan(props) {
     }, [props.count])
 
     return (
-        <div className = "qazan">
+        <div className = "qazan ballSpace">
         {qazan.map(x => x)}
         
         </div>
