@@ -1,11 +1,12 @@
 import { Outlet, Link } from "react-router-dom";
 import './App.css'
+import Header from './components/Header.js'
 
-const Layout = () => {
-  return (
-    <>
-        <nav className="navbar m-2 navbar-expand-lg navbar-light ">
-        <a className="navbar-brand" href="#">Togyzq</a>
+
+const getNav = () => {
+    return (
+        <nav className="navbar m-2 navbar-expand-lg navbar-dark ">
+        <a className="navbar-brand" href="/">Togyzq</a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
         </button>
@@ -16,11 +17,11 @@ const Layout = () => {
                 <a className="nav-link" ><Link to="/">Home</Link></a>
             </li>
             <li className="nav-item">
-                <a className="nav-link" href="#"><Link to="/">Lol</Link></a>
+                <a className="nav-link" href=""><Link to="/">Lol</Link></a>
             </li>
 
             <li className="nav-item">
-                <a className="nav-link" href="#"><Link to="/">Lol</Link></a>
+                <a className="nav-link" href=""><Link to="/">Lol</Link></a>
             </li>
             </ul>
             <form className="form-inline display-flex">
@@ -29,7 +30,14 @@ const Layout = () => {
             </form>
         </div>
         </nav>
-    <Outlet/>
+    );
+}
+const Layout = () => {
+  return (
+    <>
+       
+
+       <Outlet/>
     </>
   )
 };

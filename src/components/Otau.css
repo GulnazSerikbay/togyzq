@@ -22,8 +22,8 @@
     color: black;
     font-family: 'Montserrat', sans-serif;
     text-transform: uppercase;
-    margin: 5px;
-    padding: 5px;
+    margin: 3px;
+    padding: 10px;
     border: 2px solid #cca481;
     border-radius: 5px;
     box-shadow: 0 3px #9a8572, 0 3px rgba(0, 0, 0, 0.4);
@@ -34,7 +34,9 @@
     position: relative;
     top: 0;
     display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
+    grid-template-columns: 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px ;
+    grid-template-rows: auto auto;
+
 }
 
 .board-side {

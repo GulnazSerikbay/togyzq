@@ -1,54 +1,127 @@
 import React, { Component } from 'react'
 //import { FaTheRedYeti } from 'react-icons/fa';
 import './Board.css'
-import { Container, Qazan } from './Container.js'
+import { Otau, Qazan } from './Otau.js'
 //import Game from "./Game.js"
 import { useState, useEffect } from 'react'
 import { useDebugValue } from 'react'
 
+
+
+
 function Board(props) {
   const bgColor = '#ffdab9'
 
-  const [qazan1, setQazan1] = useState(props.qazan1)
-  const [qazan2, setQazan2] = useState(props.qazan2)
+  const [qazan1, setQazan1] = useState(0)
+  const [qazan2, setQazan2] = useState(0)
 
-  const [currPlayer, setCurrPlayer] = useState(0) // change to string probs
-  const [opponent, setOpponent] = useState(1) // change to string probs
+  const [tuzdyq1, setTuzdyq1] = useState(0)
+  const [tuzdyq2, setTuzdyq2] = useState(0)
+
+  const [lastState, setLastState] = useState ({})
+
+  const [currPlayer, setCurrPlayer] = useState(1) // change to string probs
+  const [opponent, setOpponent] = useState(0) // change to string probs
   const [winner, setWinner] = useState('')
 
+  const [counts, setCounts] = useState([81, 81])
+
   const initBoard = [
-    { playerId: 0, id: 1, text: 'A', count: 9 },
-    { playerId: 0, id: 2, text: 'B', count: 9 },
-    { playerId: 0, id: 3, text: 'C', count: 9 },
-    { playerId: 0, id: 4, text: 'D', count: 9 },
-    { playerId: 0, id: 5, text: 'E', count: 9 },
-    { playerId: 0, id: 6, text: 'F', count: 9 },
-    { playerId: 0, id: 7, text: 'G', count: 9 },
-    { playerId: 0, id: 8, text: 'H', count: 9 },
     { playerId: 0, id: 9, text: 'I', count: 9 },
-    { playerId: 1, id: 9, text: 'I', count: 9 },
-    { playerId: 1, id: 8, text: 'H', count: 9 },
-    { playerId: 1, id: 7, text: 'G', count: 9 },
-    { playerId: 1, id: 6, text: 'F', count: 9 },
-    { playerId: 1, id: 5, text: 'E', count: 9 },
-    { playerId: 1, id: 4, text: 'D', count: 9 },
-    { playerId: 1, id: 3, text: 'C', count: 9 },
-    { playerId: 1, id: 2, text: 'B', count: 9 },
+    { playerId: 0, id: 8, text: 'H', count: 9 },
+    { playerId: 0, id: 7, text: 'G', count: 9 },
+    { playerId: 0, id: 6, text: 'F', count: 9 },
+    { playerId: 0, id: 5, text: 'E', count: 9 },
+    { playerId: 0, id: 4, text: 'D', count: 9 },
+    { playerId: 0, id: 3, text: 'C', count: 9 },
+    { playerId: 0, id: 2, text: 'B', count: 9 },
+    { playerId: 0, id: 1, text: 'A', count: 9 },
     { playerId: 1, id: 1, text: 'A', count: 9 },
+    { playerId: 1, id: 2, text: 'B', count: 9 },
+    { playerId: 1, id: 3, text: 'C', count: 9 },
+    { playerId: 1, id: 4, text: 'D', count: 9 },
+    { playerId: 1, id: 5, text: 'E', count: 9 },
+    { playerId: 1, id: 6, text: 'F', count: 9 },
+    { playerId: 1, id: 7, text: 'G', count: 9 },
+    { playerId: 1, id: 8, text: 'H', count: 9 },
+    { playerId: 1, id: 9, text: 'I', count: 9 },
+  ]
+  const initBoard2 = [
+    { playerId: 0, id: 9, text: 'I', count: 9 },
+    { playerId: 0, id: 8, text: 'H', count: 9 },
+    { playerId: 0, id: 7, text: 'G', count: 9 },
+    { playerId: 0, id: 6, text: 'F', count: 9 },
+    { playerId: 0, id: 5, text: 'E', count: 9 },
+    { playerId: 0, id: 4, text: 'D', count: 9 },
+    { playerId: 0, id: 3, text: 'C', count: 9 },
+    { playerId: 0, id: 2, text: 'B', count: 9 },
+    { playerId: 0, id: 1, text: 'A', count: 2 },
+    { playerId: 1, id: 1, text: 'A', count: 0 },
+    { playerId: 1, id: 2, text: 'B', count: 0 },
+    { playerId: 1, id: 3, text: 'C', count: 0 },
+    { playerId: 1, id: 4, text: 'D', count: 0 },
+    { playerId: 1, id: 5, text: 'E', count: 0 },
+    { playerId: 1, id: 6, text: 'F', count: 0 },
+    { playerId: 1, id: 7, text: 'G', count: 0 },
+    { playerId: 1, id: 8, text: 'H', count: 0 },
+    { playerId: 1, id: 9, text: 'I', count: 1 },
   ]
 
   const [containers, setContainers] = useState(initBoard)
+
+  /*const handlePresses = (e) => {
+    if (e.key === 'z') {
+      undo()
+    }
+    switch( e.keyCode ) {
+      case 'A':
+          break;
+      default: 
+          break;
+  }
+  }*/
+
+  //document.addEventListener("keydown", handlePresses);
 
   const switchPlayer = () => {
     const curr = currPlayer
     setCurrPlayer((prevPlayer)=>prevPlayer===0?1:0)
     setOpponent(curr)
-    console.log('Now player is: ' + currPlayer)
+    console.log('Player was: ' + currPlayer)
+  }
+
+  const recalculate = () => {
+    setCounts(
+      containers.reduce(
+        ([c1,c2], {count, playerId}) => [playerId===0? c1+count:c1, playerId===1? c2+count:c2],
+        [0,0]
+      )
+    )
+    /*if (playerId===0 && counts[0]+count===0) {
+      atsyrau(playerId)
+    }
+    else if (playerId===1 && counts[1]+count===0) {
+      atsyrau(playerId)
+    } */
   }
 
   useEffect(() => {
     console.log(containers)
-  }, [containers])
+    console.log("qazan1: " + qazan1)
+    console.log("qazan2: " + qazan2);
+    recalculate()
+    if (counts[0]===0) {
+      atsyrau(0)
+    }
+    if (counts[0]===1) {
+      atsyrau(1)
+    }
+    console.log("prevcounts: " + counts);
+    props.handlePlayer(currPlayer)
+
+
+
+  }, [containers, qazan1, qazan2])
 
   const winMessage = () => {
     if (winner !== '') {
@@ -57,17 +130,17 @@ function Board(props) {
   }
 
   const hasFinished = () => {
-    if (props.qazan1 > 81) {
+    if (qazan1 > 81) {
       setWinner('Player1')
       winMessage()
       return true
     }
-    if (props.qazan2 > 81) {
+    if (qazan2 > 81) {
       setWinner('Player2')
       winMessage()
       return true
     }
-    if (props.qazan1 === 81 && props.qazan2 === 81) {
+    if (qazan1 === 81 && qazan2 === 81) {
       setWinner('Tie!')
       winMessage()
       return true
@@ -75,12 +148,61 @@ function Board(props) {
     return false
   }
 
-  const isEven = (player, count, id) => {
+  const getCount = (id, playerId) => {
+    return containers.filter(el => el.id === id && el.playerId === playerId)[0].count
+   
+  }
+
+  
+
+  const isEven = (playerId, id, count) => {
+    const tuzdyq = playerId ? tuzdyq1 : tuzdyq2; 
+    console.log("Tuzdyq", playerId, tuzdyq);
     /* if last qumalak landed on other player's container    *
      *  and there's even, then move to Qazan                 */
-    if (player !== currPlayer && count % 2 === 0) {
-      console.log('Even! Moving to qazan.')
-      //moveToQazan(currPlayer, count, id)
+
+    // Control Tuzdyq Otaus for both players
+
+
+    if (count > 1) {
+        const lastId = (id + count - 1) % 9 === 0 ? 9 : (id + count - 1) % 9
+        const rounds = Math.ceil((count + (id - 1)) / 9) //how many board sides balls travel
+        const newcount = getCount(lastId, opponent)
+        console.log("count in the lastId", newcount);
+
+        if (rounds % 2 === 0 &&  newcount % 2 !== 0) {
+            
+            console.log('Even! Moving to qazan.')
+            moveToQazan(opponent, newcount + 1, lastId)
+            
+        }
+        else if (tuzdyq === 0 && rounds % 2 === 0 && newcount === 2) {
+          console.log('Tuzdyq! Moving to qazan.')
+
+            getTuzdyq(lastId, playerId)
+            moveToQazan(opponent, newcount+1, lastId) 
+        }
+        /*if (lastId === tuzdyq1 && playerId !== ) {
+
+        }*/
+    }  
+    else {//for count === 1 calculation must be different
+        const lastId = id === 9 ? 1 : id+1
+        const rounds = id === 9 ? 2 : 1 //how many board sides balls travel
+        const newcount = getCount(lastId, opponent) 
+        //using opponent, cause if the lastId is not in opponen't side, condition will fail
+        console.log("count in the lastId", newcount);
+        if (rounds % 2 === 0 &&  newcount % 2 !== 0) {
+            
+            console.log('Even! Moving to qazan.')
+            moveToQazan(opponent, newcount+1, lastId)
+
+        }
+        else if (tuzdyq === 0  && rounds % 2 === 0 && newcount === 2){
+            console.log('Tuzdyq! Moving to qazan.')
+            getTuzdyq(lastId, playerId)
+            moveToQazan(opponent, newcount+1, lastId) 
+        }
     }
   }
   //requires count > 1
@@ -109,25 +231,60 @@ function Board(props) {
     } 
     console.log({containers});*/
 
-  /*
-    const moveToQazan = (playerId, count, id) =>{
-        let newContainers = [...containers];
-        newContainers[id-1].count = 0;
-        setContainers([...newContainers]);
+    const overflowOtau = () => {
 
+    }
+
+    // when player can't move cos of 0 qumalaks 
+    const atsyrau = (playerId) => {
+      alert("Atsyrau for Player", playerId);
+      console.log("Atsyrau!");
+      // request qumalak or not
+      // then another player will accept or deny 
+    }
+
+    const getTuzdyq = (id, playerId) => {
+      // request for tuzdyq or not
+      alert("tuzdyq")
+      if (id === 9) {
+        console.log("can't get tuzdyq");
+      }
+      else if (playerId === 0) {
+        console.log("player 1 getting tuzdyq", id);
+        setTuzdyq2(id);
+      }
+      else if (playerId === 1) {
+        console.log("player 2 getting tuzdyq", id);
+        setTuzdyq1(id);
+      }
+    }
+
+    const moveToQazan = (playerId, count, id) =>{
+        // take all balls from otau
+        setContainers((prevContainer) =>
+        prevContainer.map((el) => {
+          if (el.id === id && el.playerId === playerId) {
+              console.log("Taking", count, "balls from id:", id, "Player", playerId)
+              return { ...el, count: 0 } 
+          } else return el
+        }),
+        )
         if (playerId  === 0) {
-            setQazan1(count);
-            console.log("qazan1: " + qazan1)
+            props.onChange2(qazan2+count)  
+            setQazan2((prevcount) => prevcount+ count);
+            //console.log("qazan1: " + qazan1)
         }
         if (playerId  === 1) {
-            setQazan2(count);
-            console.log("qazan2: " + qazan2)
-
+            props.onChange1(qazan1+count)  
+            setQazan1((prevcount) => prevcount+ count);
+            //console.log("qazan2: " + qazan2)
         }
-    } */
+    } 
+
   /* Helper: edge case, when only 1 qumalak in a container */
   const onlyOne = (playerId, id) => {
     if (id === 9) {
+      setLastState({state: containers, player: currPlayer})
       setContainers((prevContainer) =>
         prevContainer.map((el) => {
           if (el.id === 1 && el.playerId !== playerId) {
@@ -156,7 +313,9 @@ function Board(props) {
     //const lastPlayerId = (Math.floor((count + (id-1))/9)%2+player)%2 //ball landing playerid
     const rounds = Math.ceil((count + (id - 1)) / 9) //how many board sides balls travel
     console.log('rounds: ' + rounds)
+    setLastState({state: containers, player: currPlayer})
     setContainers((prevContainer) =>
+      
       prevContainer.map((el) => {
         if (el.id === id && el.playerId === playerId) {
           return { ...el, count: 1 }
@@ -191,17 +350,45 @@ function Board(props) {
     )
   }
 
+  const undo = () => {
+    // while the other player haven't made move yet
+    if (currPlayer !== lastState.player) {
+      setContainers(lastState.state);
+      switchPlayer()
+      console.log("Player ", currPlayer, "undoed: ", lastState);
+    }
+    else {
+      console.log("Can't undo, chance expired");
+    }
+  }
+
   const makeMove = (playerId, id, count) => {
     // player can't move on other's side
     if (playerId === currPlayer) {
+      // if player can't make move cos of count
+      if (counts[playerId] === 0){
+        atsyrau(playerId)
+      }
       if (count === 0) {
         console.log('Invalid move, not enough balls')
         return
       } else if (count === 1) {
         onlyOne(playerId, id)
-
+        
         // check for parity and win state
-        //isEven()
+        isEven(playerId, id, count)
+        if (tuzdyq1 !== 0) {
+          
+          const tcount1 = getCount(tuzdyq1, 1);
+          console.log("There's ", tcount1, "balls in t", tuzdyq1, "of 1");
+          moveToQazan(1, tcount1, tuzdyq1) // from 0th player
+        }
+        
+        if (tuzdyq2 !== 0) {
+          const tcount2 = getCount(tuzdyq2, 0);
+          moveToQazan(0, tcount2, tuzdyq2) // from 1st player
+        }
+
         switchPlayer()
 
         if (hasFinished()) {
@@ -212,9 +399,21 @@ function Board(props) {
       // count > 1
       else {
         oneMove(playerId, id, count)
+        const lastId = (id + count - 1) % 9 === 0 ? 9 : (id + count - 1) % 9
 
         // check for parity and win state
-        //isEven()
+        isEven(playerId, id, count)
+        if (tuzdyq1 !== 0) {
+          const tcount1 = getCount(tuzdyq1, 1);
+          moveToQazan(0, tcount1, tuzdyq1) // from 0th player
+        }
+        
+        if (tuzdyq2 !== 0) {
+          const tcount2 = getCount(tuzdyq2, 0);
+          moveToQazan(1, tcount2, tuzdyq2) // from 1st player
+        }
+        // check for parity and win state
+        //isEven(playerId, id, count)
         switchPlayer()
 
         if (hasFinished()) {
@@ -301,11 +500,11 @@ function Board(props) {
         {containers.map((item) => {
           if (item.playerId === 0) {
             return (
-              <Container
+              <Otau
                 id={item.id}
-                color={props.tuzdyq1 === item.id ? 'white' : bgColor}
-                text={item.text}
-                count={item.count}
+                color = {tuzdyq1 === item.id ? 'white' : bgColor}
+                text = {item.text}
+                count = {item.count}
                 /*{containers.find(obj => {
         return obj.id === item.id && obj.playerId === item.playerId
       })}*/
@@ -321,11 +520,11 @@ function Board(props) {
       <div className="board-side">
         {containers.map((item) =>
           item.playerId === 1 ? (
-            <Container
-              id={item.id}
-              color={props.tuzdyq2 === item.id ? 'white' : bgColor}
-              text={item.text}
-              count={item.count}
+            <Otau
+              id = {item.id}
+              color = {tuzdyq2 === item.id ? 'white' : bgColor}
+              text = {item.text}
+              count = {item.count}
               /*{containers.find(obj => {
                             return obj.id === item.id && obj.playerId === item.playerId
                           })}*/

@@ -1,15 +1,11 @@
 import React from 'react';
-import './Container.css';
+import './Otau.css';
 import {useState} from 'react';
 import Ball from './Ball.js';
 import { useEffect } from 'react';
 
 
-
-
-
-function Container(props) {
-    const [balls, setBalls] = useState(0);
+function Otau(props) {
     const [balllist, setBalllist] = useState([]);
 
 
@@ -19,8 +15,9 @@ function Container(props) {
         //console.log(balls);
         // setBalls(props.count);
         let list = []
-        for (let i = 0; i < props.count; i++) {
-            list.push(<Ball color="brown" />);
+        let mar = 0;
+        for (let i = 0; i < props.count ; i++) {
+            list.push(<Ball color="brown" id = {i} marg={mar}/>);
         }
         //console.log("list",list);
         setBalllist([...list]);
@@ -56,7 +53,8 @@ function Qazan(props) {
         //console.log(qazan);
         let list = []
         for (let i = 0; i < props.count; i++) {
-            list.push(<Ball color="brown" />);
+            
+            list.push(<Ball color="brown" id = {i}/>);
         }
         setQazan(list);
 
@@ -70,4 +68,4 @@ function Qazan(props) {
       
     );
 }
-export {Container, Qazan};
+export {Otau, Qazan};

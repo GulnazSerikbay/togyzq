@@ -1,4 +1,7 @@
 .homepage {
     background-color: #282c34;
-    
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
 }

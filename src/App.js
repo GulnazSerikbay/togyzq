@@ -10,12 +10,9 @@ import Home from "./Home.js";
 import { useState } from 'react';
 
 
-
 // <Chat></Chat>
 
 function App() {
-
-
   //if(board.full) return<Modal winner={player} freeze />
   return (
     <BrowserRouter>
