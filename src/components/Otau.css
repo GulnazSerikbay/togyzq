@@ -49,3 +49,8 @@
 
     background-color: #9a8572;
 }
+
+.hoverHint {
+    border-color: black !important;
+    border-radius: 10px;
+}

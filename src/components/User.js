@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import { FaUserAstronaut } from 'react-icons/fa';
 
 function User(props) {
+    console.log("score sent to User: ", props.score);
     return (
         <>
         <div className='user' style={{backgroundColor: (props.playing) ? "lightblue": "#9a8572"}}>

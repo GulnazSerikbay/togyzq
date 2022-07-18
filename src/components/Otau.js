@@ -10,7 +10,7 @@ function Otau(props) {
 
 
     useEffect(() => {
-        console.log("object",props);
+        //console.log("object",props);
         //if(props.count){
         //console.log(balls);
         // setBalls(props.count);
@@ -25,14 +25,21 @@ function Otau(props) {
     }, [props.count])
 
     
-
-    //console.log('balllist', balllist)
+    console.log("action", props.onMouseEnter);
+    console.log('hover', props.hoverHint)
+    //${(props.hoverHint=== true) ? 'hoverHint' : ''}`}
     return (
        
             <div 
-                className='container btn' 
-                style = {{backgroundColor: props.color, fontSize: 16, display: 'flex', alignItems: 'justify'}}
+                className= 'container btn' 
+                style = {{backgroundColor: props.color, 
+                    fontSize: 16, 
+                    display: 'flex', 
+                    alignItems: 'justify',
+                    border: (props.hoverHint === true) ? '5px solid yellow' : '2px solid #cca481'}}
                 onClick={props.onClick}    
+                onMouseEnter = {props.onMouseEnter}
+                onMouseLeave = {props.onMouseLeave}
             >
                 <div className = "ballSpace">
                     {balllist.map(x => x)}
