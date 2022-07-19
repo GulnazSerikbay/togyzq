@@ -1,7 +1,61 @@
 .homepage {
     background-color: #282c34;
+    display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     font-family: 'Orbitron', sans-serif;
+}
+
+.banner.svelte-1v7r4ll.svelte-1v7r4ll.svelte-1v7r4ll.svelte-1v7r4ll {
+    margin: 20px 0px;
+    height: 80px;
+    width: 100%;
+    background-color: rgba(107, 88, 142, 0.554);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    font-size: 18px;
+}
+
+
+.banner.svelte-1v7r4ll.svelte-1v7r4ll.svelte-1v7r4ll .menu.svelte-1v7r4ll.svelte-1v7r4ll.svelte-1v7r4ll {
+    margin-right: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.banner.svelte-1v7r4ll.svelte-1v7r4ll .menu.svelte-1v7r4ll.svelte-1v7r4ll>.item.blue.svelte-1v7r4ll.svelte-1v7r4ll {
+    color: rgb(184, 221, 233);
+}
+
+.banner.svelte-1v7r4ll.svelte-1v7r4ll .menu.svelte-1v7r4ll.svelte-1v7r4ll>.item.svelte-1v7r4ll.svelte-1v7r4ll {
+    padding: 10px 20px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+}
+
+.banner.svelte-1v7r4ll.svelte-1v7r4ll .menu.svelte-1v7r4ll.svelte-1v7r4ll>.separator.svelte-1v7r4ll.svelte-1v7r4ll {
+    width: 5px;
+    height: 29px;
+    background-color: #a2a2af;
+    margin: 5px 10px;
+}
+
+
+.banner.svelte-1v7r4ll .menu.svelte-1v7r4ll>.item.svelte-1v7r4ll>.sub.svelte-1v7r4ll {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0%;
+    background-color: #69696e;
+    width: 100%;
+    z-index: 9;
 }

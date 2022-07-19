@@ -615,53 +615,56 @@ function Board(props) {
     }*/
   console.log("containers",containers)
   return (
-    <div className="board">
-      <div className="board-side">
-        {containers.map((item) => {
-          if (item.playerId === 0) {
-            return (
+    <>
+      <div className="board">
+        <div className="board-side">
+          {containers.map((item) => {
+            if (item.playerId === 0) {
+              return (
+                <Otau
+                  onMouseEnter = {() => showHint(item.playerId, item.id, item.count)}
+                  onMouseLeave = {() => hideHint(item.playerId, item.id, item.count)}
+                  hoverHint = {item.hover}
+                  id={item.id}
+                  color = {tuzdyq1 === item.id ? 'white' : bgColor}
+                  text = {item.text}
+                  count = {item.count}
+                  /*{containers.find(obj => {
+          return obj.id === item.id && obj.playerId === item.playerId
+        })}*/
+                  onClick={() => makeMove(item.playerId, item.id, item.count)}
+                />
+              )
+            } else return <></>
+          })}
+        </div>
+        <Qazan playerId={1} count={qazan2} />
+        <Qazan playerId={0} count={qazan1} />
+
+        <div className="board-side">
+          {containers.map((item) =>
+            item.playerId === 1 ? (
               <Otau
                 onMouseEnter = {() => showHint(item.playerId, item.id, item.count)}
-                onMouseLeave = {() => hideHint(item.playerId, item.id, item.count)}
-                hoverHint = {item.hover}
-                id={item.id}
-                color = {tuzdyq1 === item.id ? 'white' : bgColor}
+                onMouseLeave = {() => hideHint(item.playerId, item.id, item.count)}              hoverHint = {item.hover}
+                id = {item.id}
+                color = {tuzdyq2 === item.id ? 'white' : bgColor}
                 text = {item.text}
                 count = {item.count}
                 /*{containers.find(obj => {
-        return obj.id === item.id && obj.playerId === item.playerId
-      })}*/
+                              return obj.id === item.id && obj.playerId === item.playerId
+                            })}*/
                 onClick={() => makeMove(item.playerId, item.id, item.count)}
               />
-            )
-          } else return <></>
-        })}
-      </div>
-      <Qazan playerId={1} count={qazan2} />
-      <Qazan playerId={0} count={qazan1} />
+            ) : (
+              <></>
+            ),
+          )}
+        </div>
 
-      <div className="board-side">
-        {containers.map((item) =>
-          item.playerId === 1 ? (
-            <Otau
-              onMouseEnter = {() => showHint(item.playerId, item.id, item.count)}
-              onMouseLeave = {() => hideHint(item.playerId, item.id, item.count)}              hoverHint = {item.hover}
-              id = {item.id}
-              color = {tuzdyq2 === item.id ? 'white' : bgColor}
-              text = {item.text}
-              count = {item.count}
-              /*{containers.find(obj => {
-                            return obj.id === item.id && obj.playerId === item.playerId
-                          })}*/
-              onClick={() => makeMove(item.playerId, item.id, item.count)}
-            />
-          ) : (
-            <></>
-          ),
-        )}
       </div>
-      <button className='req' onClick={undo}>Undo</button>  
-    </div>
+      <button className='undo' onClick={undo}>Undo</button>  
+    </>
   )
 }
 export default Board

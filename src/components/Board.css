@@ -1,12 +1,14 @@
 .board {
     background-color: #9a8572;
-    width: 65vw;
+    width: 75%;
     height: 40vw;
     display:flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
+
+
 
 
 .ball {
@@ -16,19 +18,28 @@
     -moz-border-radius: 50px;
     -webkit-border-radius: 50px;
     border-radius: 50px;
+    border: 1px solid black;
 }
 
 .ballSpace {
-    width: 100%;
-    padding-top: 10%;
+    width: 95%;
+    padding-top: 3%;
     display: grid;
     grid-template-columns: auto auto;
+    grid-template-rows: 20% 20% 20% 20% 20%;
 }
 
-.req {
-    align-self: flex-end;
-    margin: 5% 5% 5% 5%;
+.overflown {
+    width: 50%;
+    padding-top: 3%;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 20% 20% 20% 20% 20%;
+}
 
-
+.undo {
+    position: absolute;
+    top: 5%;
+    left: 65%;
     background-color: aliceblue;
 }
