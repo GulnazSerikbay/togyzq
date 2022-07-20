@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 //import assert from 'assert'
-
+import PopUp from "./Popup";
 //import { FaTheRedYeti } from 'react-icons/fa';
 import './Board.css'
 import { Otau, Qazan } from './Otau.js'
@@ -11,9 +11,20 @@ import { useDebugValue } from 'react'
 // write the logic for tuzdyq in map for onlyOne and oneMove (el.id===tuzdyq1)
 // player 0 owns tuzdyq2!!
 
+
+
 function Board(props) {
   const bgColor = '#ffdab9'
+  const [visibility, setVisibility] = useState(false);
 
+  const togglePop = () => {
+    console.log(visibility)
+    setVisibility((state) => !state);
+  };
+  
+  /*const popupCloseHandler = (e) => {
+    setVisibility(e);
+  };*/
   const [qazan1, setQazan1] = useState(0)
   const [qazan2, setQazan2] = useState(0)
 
@@ -654,10 +665,20 @@ function Board(props) {
               <></>
             ),
           )}
+          
         </div>
 
+      
+      
+        
+      
+      
       </div>
-      <button className='undo' onClick={undo}>Undo</button>  
+      {visibility ? <PopUp toggle={togglePop} /> : null}
+      <button className='undo' onClick={undo}>Undo</button> 
+      <button onClick={togglePop}>Toggle Popup</button>
+ 
+      <button className = '' >Help</button>
     </>
   )
 }
