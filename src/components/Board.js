@@ -626,12 +626,9 @@ function Board(props) {
                   onMouseLeave = {() => hideHint(item.playerId, item.id, item.count)}
                   hoverHint = {item.hover}
                   id={item.id}
-                  color = {tuzdyq1 === item.id ? 'white' : bgColor}
+                  color = {tuzdyq1 === item.id ? 'aliceblue' : bgColor}
                   text = {item.text}
                   count = {item.count}
-                  /*{containers.find(obj => {
-          return obj.id === item.id && obj.playerId === item.playerId
-        })}*/
                   onClick={() => makeMove(item.playerId, item.id, item.count)}
                 />
               )
@@ -651,9 +648,6 @@ function Board(props) {
                 color = {tuzdyq2 === item.id ? 'white' : bgColor}
                 text = {item.text}
                 count = {item.count}
-                /*{containers.find(obj => {
-                              return obj.id === item.id && obj.playerId === item.playerId
-                            })}*/
                 onClick={() => makeMove(item.playerId, item.id, item.count)}
               />
             ) : (

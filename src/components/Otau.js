@@ -16,15 +16,12 @@ function Otau(props) {
         // setBalls(props.count);
         let list = []
         let list2 = []
-        let mar = 0;
-        let count = props.count;
+        let mar = false;
         for (let i = 0; i < props.count && i < 10 ; i++) {
             list.push(<Ball color="brown" id = {i} marg={mar}/>);
-            count--;
         }
-        for (let i = 0; i < count && i < 5 ; i++) {
-            list2.push(<Ball color="brown" id = {i} marg={mar}/>);
-            count--;
+        for (let i = 0; i < props.count-list.length && i < 5 ; i++) {
+            list2.push(<Ball color="brown" id = {i} marg={true}/>);
         }
         
         //console.log("list",list);
@@ -44,7 +41,7 @@ function Otau(props) {
                     fontSize: 16, 
                     display: 'flex', 
                     alignItems: 'justify',
-                    border: (props.hoverHint === true) ? '5px solid lightblue' : '2px solid #cca481'}}
+                    border: (props.hoverHint === true) ? '3px solid lightblue' : '3px solid #cca481'}}
                     onClick={props.onClick}    
                     onMouseEnter = {props.onMouseEnter}
                     onMouseLeave = {props.onMouseLeave}
@@ -52,8 +49,9 @@ function Otau(props) {
                 <div className = "ballSpace">
                     {balllist.map(x => x)}
                     <div className = "overflown">
-                    {balllist2.map(x => x)}
+                        {balllist2.map(x => x)}
                     </div>
+                    <div className = "scoreBall">{props.count}</div>
                 </div>
                 
                     <span>{props.text}</span>  
@@ -63,22 +61,31 @@ function Otau(props) {
 
 function Qazan(props) {
     const [qazan, setQazan] = useState([]);
-    
+    const [overflown, setOverflown] = useState([]);
+
     useEffect(() => {
         //console.log(qazan);
         let list = []
+        let list2 = []
         for (let i = 0; i < props.count && i < 60; i++) {
-            
             list.push(<Ball color="brown" id = {i}/>);
         }
+        console.log("list length: ", list.length);
+        for (let i = 0; i < props.count-list.length; i++) {
+            list2.push(<Ball color="brown" id = {i} marg={true}/>);
+        } 
         setQazan(list);
+        setOverflown(list2);
 
     }, [props.count])
 
     return (
         <div className = "qazan ballSpace">
-        {qazan.map(x => x)}
-        
+            {qazan.map(x => x)}
+            <div className ="overflownQ">
+                {overflown.map(x=>x)}
+            </div>
+            <div className = "scoreBall" style={{fontSize: 'small '}}>{props.count}</div>
         </div>
     );
 }

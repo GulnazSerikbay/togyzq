@@ -25,18 +25,12 @@ function Home () {
               <div class="logo svelte-1v7r4ll" ><img src={ornament} alt="logo" style={{objectFit: 'cover', width: '10%'}}></img>TOGYZQ</div> 
               
               <div className="menu svelte-1v7r4ll">
-              <div className="item blue svelte-1v7r4ll"><a href="game">PLAY</a></div> 
-              <a href="rules" className="item svelte-1v7r4ll">RULES</a> 
+              <div className="item blue svelte-1v7r4ll"><a href="game">OINAU</a></div> 
+              
               <div className="separator svelte-1v7r4ll"></div> 
-              <div className="item svelte-1v7r4ll">CONTRIBUTE
-			          <div className="sub svelte-1v7r4ll">
-                  <a href="/" className="item svelte-1v7r4ll">PATREON</a> 
-                  <a href="/" className="item svelte-1v7r4ll">PAYPAL</a> 
-                  <a href="/" className="item svelte-1v7r4ll">CODE</a> 
-                  <a href="/" className="item svelte-1v7r4ll">REPORT ISSUE</a>
-                </div>
+              <div className="item svelte-1v7r4ll"><a href="rules" className="item svelte-1v7r4ll">RULES</a>
               </div> 
-              <div className="item svelte-1v7r4ll">COMMUNITY
+              <div className="item svelte-1v7r4ll">LOL
 			          <div className="sub svelte-1v7r4ll">
                   <a href="/" className="item svelte-1v7r4ll">WIKI</a> 
                   <a href="/" className="item svelte-1v7r4ll">DISCORD</a> 
@@ -45,12 +39,9 @@ function Home () {
                 </div>
               </div> 
               <div className="separator svelte-1v7r4ll"></div> 
-              <a href="/" className="item svelte-1v7r4ll">PRESSKIT</a> 
+              
               <div className="item svelte-1v7r4ll">LOGIN
-			          <div className="sub svelte-1v7r4ll">
-                  <a href="/" className="item svelte-1v7r4ll">CONTACT</a> 
-                  <a href="/" className="item svelte-1v7r4ll">LEGAL</a> 
-                </div>
+
               </div>
             </div>
             </div>
@@ -67,7 +58,7 @@ function Home () {
                 successText={'Success'}
                 errorText={'Error'}
                 type={'button'}
-                className={'class1 class2 col-12'}
+                className={'class1 class2 col-6'}
                 style={{ borderRadius: '5px' }}
                 outline={false}
                 shadow={false}
@@ -77,7 +68,7 @@ function Home () {
                 messageDuration={1000}
                 disabled={false}
                 buttonRef={null}
-                width={'20%'}
+                width={'15wv'}
                 height={null}
                 animation={true}
             />
@@ -91,7 +82,7 @@ function Home () {
                 successText={'Success'}
                 errorText={'Error'}
                 type={'button'}
-                className={'class1 class2 col-12'}
+                className={'class1 class2 col-6'}
                 style={{ borderRadius: '5px' }}
                 outline={false}
                 shadow={false}
@@ -101,7 +92,7 @@ function Home () {
                 messageDuration={1000}
                 disabled={false}
                 buttonRef={null}
-                width={'20%'}
+                width={'15wv'}
                 height={null}
                 animation={true}
             />
