@@ -1,0 +1,106 @@
+@font-face{
+    font-family: "bitty";
+    src: url("./bitty.ttf") format("truetype");
+}
+
+
+body {
+    background-color: #373041;
+    padding: 0px;
+    margin: 0px;
+    display: flex ;
+   
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    color: #f2f5f5;
+    font-family: bitty;
+    line-height: 20px;
+    display: block;
+    
+}
+::-webkit-scrollbar {
+    width: 16px;
+}
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 0px;
+    background: #929398;
+}
+:-webkit-scrollbar-track {
+    background-color: #3c3f4c;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+.banner.svelte-1v7r4ll.svelte-1v7r4ll.svelte-1v7r4ll.svelte-1v7r4ll {
+    margin: 40px 0px;
+    height: 80px;
+    width: 100%;
+    background-color: rgba(88, 103, 221, 0.554);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+}
+.bigHeading.svelte-c6ii9i.svelte-c6ii9i {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+
+.bigHeading.svelte-c6ii9i .line.left.svelte-c6ii9i {
+    width: 40px;
+}
+.bigHeading.svelte-c6ii9i .line.svelte-c6ii9i {
+    height: 5px;
+    background-color: rgba(88, 103, 221, 0.554);
+}
+.bigHeading.svelte-c6ii9i .text.svelte-c6ii9i {
+    padding: 0px 20px;
+    font-size: 24px;
+}
+
+.bigHeading.svelte-c6ii9i .line.right.svelte-c6ii9i {
+    flex: 1;
+}
+.bigHeading.svelte-c6ii9i .line.svelte-c6ii9i {
+    height: 5px;
+    background-color: rgba(88, 103, 221, 0.554);
+}
+
+.area.svelte-s265wh.svelte-s265wh {
+    width: 80%;
+    
+    position: relative;
+    margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.area.svelte-s265wh img.svelte-s265wh {
+    position: absolute;
+    right: 0;
+    height: 90%;
+    z-index: 2;
+    -webkit-mask-image: -webkit-linear-gradient(right, #000000, rgba(0, 0, 0, 0));
+    mask-image: -o-linear-gradient(right, #000000, rgba(0, 0, 0, 0));
+    mask-image: linear-gradient(to left, #000000, rgba(0, 0, 0, 0.1));
+}
+
+.area.svelte-s265wh .box.svelte-s265wh {
+    z-index: 2;
+    text-align: justify;
+    width: 30%;
+    color: #c0c3cf;
+}
+
+
+.area.isRight.svelte-s265wh.svelte-s265wh {
+    justify-content: flex-end;
+    width: 70% !important;
+}

@@ -21,7 +21,7 @@ function Board(props) {
     console.log(visibility)
     setVisibility((state) => !state);
   };
-  
+
   /*const popupCloseHandler = (e) => {
     setVisibility(e);
   };*/
@@ -668,18 +668,14 @@ function Board(props) {
           
         </div>
 
-      
-      
-        
-      
-      
       </div>
       {visibility ? <PopUp toggle={togglePop} /> : null}
       <button className='undo' onClick={undo}>Undo</button> 
-      <button onClick={togglePop}>Toggle Popup</button>
+      
  
-      <button className = '' >Help</button>
+   
     </>
   )
 }
 export default Board
+// <button onClick={togglePop}>Toggle Popup</button> 

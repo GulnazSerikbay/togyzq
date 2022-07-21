@@ -1,10 +1,22 @@
+@font-face{
+    font-family: "bitty";
+    src: url("./bitty.ttf") format("truetype");
+}
+body  {
+    box-sizing: border-box;
+    color: #f2f5f5;
+    font-family: bitty;
+    line-height: 20px;
+}
+
+
 .homepage {
     background-color: #282c34;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    font-family: 'Orbitron', sans-serif;
+    
 }
 
 .banner.svelte-1v7r4ll.svelte-1v7r4ll.svelte-1v7r4ll.svelte-1v7r4ll {
@@ -16,7 +28,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    position: fixed;
+    
     top: 0;
     font-size: 18px;
 }

@@ -21,14 +21,14 @@ function Home () {
     return (
 
         <div className = "homepage text-light bg-transparent row">
-            <div class="banner svelte-1v7r4ll col-12">
-              <div class="logo svelte-1v7r4ll" ><img src={ornament} alt="logo" style={{objectFit: 'cover', width: '10%'}}></img>TOGYZQ</div> 
+            <div className="banner svelte-1v7r4ll col-12">
+              <div className="logo svelte-1v7r4ll" ><img src={ornament} alt="logo" style={{objectFit: 'cover', width: '10%'}}></img>TOGYZQ</div> 
               
               <div className="menu svelte-1v7r4ll">
-              <div className="item blue svelte-1v7r4ll"><a href="game">OINAU</a></div> 
+              <div className="item blue svelte-1v7r4ll"><Link to="/game">OINAU</Link></div> 
               
               <div className="separator svelte-1v7r4ll"></div> 
-              <div className="item svelte-1v7r4ll"><a href="rules" className="item svelte-1v7r4ll">RULES</a>
+              <div className="item svelte-1v7r4ll"><Link to="/rules">RULES</Link>
               </div> 
               <div className="item svelte-1v7r4ll">LOL
 			          <div className="sub svelte-1v7r4ll">
@@ -58,7 +58,7 @@ function Home () {
                 successText={'Success'}
                 errorText={'Error'}
                 type={'button'}
-                className={'class1 class2 col-6'}
+                className={'class1 class2'}
                 style={{ borderRadius: '5px' }}
                 outline={false}
                 shadow={false}
@@ -73,6 +73,7 @@ function Home () {
                 animation={true}
             />
             </Link>
+            <Link to="/game">
             <ReactiveButton
                 buttonState={state}
                 onClick={onClickHandler}
@@ -82,7 +83,7 @@ function Home () {
                 successText={'Success'}
                 errorText={'Error'}
                 type={'button'}
-                className={'class1 class2 col-6'}
+                className={'class1 class2 '}
                 style={{ borderRadius: '5px' }}
                 outline={false}
                 shadow={false}
@@ -95,7 +96,7 @@ function Home () {
                 width={'15wv'}
                 height={null}
                 animation={true}
-            />
+            /></Link>
            
         </div>
       );

@@ -1,11 +1,24 @@
+@font-face{
+    font-family: "bitty";
+    src: url("../bitty.ttf") format("truetype");
+}
+
+body  {
+    box-sizing: border-box;
+    font-family: bitty;
+    line-height: 20px;
+    color:  black !important;
+}
+
 .board {
     background-color: #9a8572;
     width: 75%;
-    height: 40vw;
-    display:flex;
+    height: 42vw;
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    color: black !important;
 }
 
 

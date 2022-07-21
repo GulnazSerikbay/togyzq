@@ -4,6 +4,8 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./Layout.js";
 import Home from "./Home.js";
+import Custom from "./Custom.js";
+import Rules from "./Rules.js";
 
 
 
@@ -20,6 +22,8 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="game" element={<Game />} />
+          <Route path="rules" element={<Rules />} />
+          <Route path="custom" element={<Custom />} />
         </Route>
       </Routes>
     </BrowserRouter>

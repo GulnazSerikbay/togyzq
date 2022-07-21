@@ -54,7 +54,7 @@ function Otau(props) {
                     <div className = "scoreBall">{props.count}</div>
                 </div>
                 
-                    <span>{props.text}</span>  
+                    <span style={{color: 'black !important'}}>{props.text}</span>  
             </div>
     );
 }

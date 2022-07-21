@@ -1,8 +1,7 @@
 .container {
     background-color: #ffdab9;
     position: absolute;
-    color: black;
-    font-family: 'Montserrat', sans-serif;
+    color: black !important;
     text-transform: uppercase;
     margin: 10px 5px;
     padding: 5px;
@@ -52,6 +51,7 @@
 
 
 .scoreBall {
+    color: black !important;
     position: absolute;
     top: 0;
     left: 0;
