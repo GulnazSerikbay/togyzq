@@ -17,6 +17,9 @@ function Board(props) {
   const bgColor = '#ffdab9'
   const [visibility, setVisibility] = useState(false);
 
+  const ocount = 5;
+  const qcount = 5;
+
   const togglePop = () => {
     console.log(visibility)
     setVisibility((state) => !state);
@@ -38,6 +41,16 @@ function Board(props) {
 
   const [counts, setCounts] = useState([81, 81])
 
+  const texts = ['I','H','G','F','E', 'D', 'C','B','A']
+  const initBoard  = []
+    for(var i = 0; i < ocount; i++) {
+        initBoard.push({playerId: 0, id: ocount-i, text:texts[i], count: qcount, hover: false});
+    }
+    for(var j = 0; j < ocount; j++) {
+        initBoard.push({playerId: 1, id: j+1, text:texts[-j-1], count: qcount, hover: false});
+    }
+    console.log("Board new: ", initBoard)
+  /* 
   const initBoard = [
     { playerId: 0, id: 9, text: 'I', count: 9, hover: false },
     { playerId: 0, id: 8, text: 'H', count: 9, hover: false },
@@ -58,6 +71,8 @@ function Board(props) {
     { playerId: 1, id: 8, text: 'H', count: 9, hover: false },
     { playerId: 1, id: 9, text: 'I', count: 9, hover: false },
   ]
+  */
+
   const [lastState, setLastState] = useState ({
           state: initBoard, 
           qazan1: 0, qazan2: 0, 
@@ -88,20 +103,6 @@ function Board(props) {
   ]
 
   const [containers, setContainers] = useState(initBoard)
-
-  /*const handlePresses = (e) => {
-    if (e.key === 'z') {
-      undo()
-    }
-    switch( e.keyCode ) {
-      case 'A':
-          break;
-      default: 
-          break;
-  }
-  }*/
-
-  //document.addEventListener("keydown", handlePresses);
 
   //switches the current player
   const switchPlayer = () => {
@@ -144,7 +145,7 @@ function Board(props) {
     console.log("counts", counts)
     console.log("newcounts", newcount)
 
-    console.assert(newcount[0]+newcount[1]+qazan1+qazan2 === 162, newcount[0]+newcount[1]+qazan1+qazan2);
+    console.assert(newcount[0]+newcount[1]+qazan1+qazan2 === ocount*qcount*2, newcount[0]+newcount[1]+qazan1+qazan2);
 
   }, [containers, qazan1, qazan2])
 
@@ -156,17 +157,17 @@ function Board(props) {
   }
 
   const hasFinished = () => {
-    if (qazan1 > 81) {
+    if (qazan1 > ocount*qcount) {
       setWinner('Player1')
       winMessage()
       return true;
     }
-    if (qazan2 > 81) {
+    if (qazan2 > ocount*qcount) {
       setWinner('Player2')
       winMessage()
       return true;
     }
-    if (qazan1 === 81 && qazan2 === 81) {
+    if (qazan1 === ocount*qcount && qazan2 === ocount*qcount) {
       setWinner('Tie!')
       winMessage()
       return true;
@@ -191,8 +192,8 @@ function Board(props) {
 
 
     if (count > 1) {
-        const lastId = (id + count - 1) % 9 === 0 ? 9 : (id + count - 1) % 9
-        const rounds = Math.ceil((count + (id - 1)) / 9) //how many board sides balls travel
+        const lastId = (id + count - 1) % ocount === 0 ? ocount : (id + count - 1) % ocount
+        const rounds = Math.ceil((count + (id - 1)) / ocount) //how many board sides balls travel
         const newcount = getCount(lastId, opponent, containers)
         console.log("count in the lastId", newcount);
 
@@ -216,8 +217,8 @@ function Board(props) {
         }*/
     }  
     else {//for count === 1 calculation must be different
-        const lastId = id === 9 ? 1 : id+1
-        const rounds = id === 9 ? 2 : 1 //how many board sides balls travel
+        const lastId = id === ocount ? 1 : id+1
+        const rounds = id === ocount ? 2 : 1 //how many board sides balls travel
         const newcount = getCount(lastId, opponent, containers) 
         //using opponent, cause if the lastId is not in opponen't side, condition will fail
         console.log("count in the lastId", newcount);
@@ -237,35 +238,9 @@ function Board(props) {
         }
     }
   }
-  //requires count > 1
-  /* const oneMove = (id, count) => {
-        //let currId = id;
-        console.log('???');
-        let balls = count;
-        setContainers((prevContainer)=>prevContainer.map((el,idx)=>{ 
-            if(el.id===id){
-                console.log(el.count)
-                return {...el,count:1};
-            }
-            if(el.id < (count+id)%18){
-                console.log("id: " + el.id)
-                console.log("added: " + (Math.ceil(count/18)))
-                return {...el,count:el.count+(Math.ceil(count/18))};
-            }   
-            if (el.id >= (count+id-1)%18 && count>18){ 
-                console.log("id: " + el.id)
-                console.log("added: " + Math.ceil(count/18)) //(Math.ceil((el.id-id)/18)))
-                return {...el,count:el.count+ Math.ceil(count/18)}//(Math.ceil((el.id-id)/count))};
-            }     
-            else return el;
-        }));
 
-    } 
-    console.log({containers});*/
 
-    const overflowOtau = () => {
-
-    }
+ 
 
     const hideHint = (playerId, id, count) => {
         console.log("hiding");
@@ -277,8 +252,8 @@ function Board(props) {
       
       if (count > 0 && playerId === currPlayer) {
         if (count === 1) {
-          const lastId = id === 9 ? 1 : id+1
-          const rounds = id === 9 ? 2 : 1 //how many board sides balls travel
+          const lastId = id === ocount ? 1 : id+1
+          const rounds = id === ocount ? 2 : 1 //how many board sides balls travel
           const lastPlayerId = (rounds % 2 === 0) ? opponent : currPlayer
           
           setContainers((prevContainer) => 
@@ -291,8 +266,8 @@ function Board(props) {
         }
         else { // count > 1
           
-          const lastId = (id + count - 1) % 9 === 0 ? 9 : (id + count - 1) % 9
-          const rounds = Math.ceil((count + (id - 1)) / 9) //how many board sides balls travel
+          const lastId = (id + count - 1) % ocount === 0 ? ocount : (id + count - 1) % ocount
+          const rounds = Math.ceil((count + (id - 1)) / ocount) //how many board sides balls travel
           const lastPlayerId = (rounds % 2 === 0) ? opponent : currPlayer
           console.log("hovered: ", lastId, lastPlayerId)
           
@@ -321,7 +296,7 @@ function Board(props) {
     const getTuzdyq = (id, playerId) => {
       // request for tuzdyq or not
       
-      if (id === 9) {
+      if (id === ocount) {
         console.log("can't get tuzdyq");
         return false;
       }
@@ -402,10 +377,10 @@ function Board(props) {
   }
 
   const oneMove = (playerId, id, count) => {
-    const lastId = (id + count - 1) % 9 === 0 ? 9 : (id + count - 1) % 9
+    const lastId = (id + count - 1) % ocount === 0 ? ocount : (id + count - 1) % ocount
     console.log('lastId: ' + lastId)
     //const lastPlayerId = (Math.floor((count + (id-1))/9)%2+player)%2 //ball landing playerid
-    const rounds = Math.ceil((count + (id - 1)) / 9) //how many board sides balls travel
+    const rounds = Math.ceil((count + (id - 1)) / ocount) //how many board sides balls travel
     console.log('rounds: ' + rounds)
     setLastState({
       state: containers, 
@@ -524,26 +499,11 @@ function Board(props) {
         // count > 1
         else {
           oneMove(playerId, id, count)
-          const lastId = (id + count - 1) % 9 === 0 ? 9 : (id + count - 1) % 9
 
           // check for parity and win state
           isEven(playerId, id, count)
           //checkTuzdyq();
-          /* if (tuzdyq1 !== 0) {
-            const tcount1 = getCount(tuzdyq1, 0);
-            console.log("There's ", tcount1, "balls in t", tuzdyq1, "of 1");
-
-            moveToQazan(0, tcount1+1, tuzdyq1) // from 0th player
-          }
-          
-          if (tuzdyq2 !== 0) {
-            const tcount2 = getCount(tuzdyq2, 1);
-            console.log("There's ", tcount2, "balls in t", tuzdyq2, "of 1");
-
-            moveToQazan(1, tcount2+1, tuzdyq2) // from 1st player
-          } */
-          // check for parity and win state
-          //isEven(playerId, id, count)
+  
           switchPlayer()
 
           

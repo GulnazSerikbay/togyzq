@@ -22,7 +22,7 @@ function Home () {
 
         <div className = "homepage text-light bg-transparent row">
             <div className="banner svelte-1v7r4ll col-12">
-              <div className="logo svelte-1v7r4ll" ><img src={ornament} alt="logo" style={{objectFit: 'cover', width: '10%'}}></img>TOGYZQ</div> 
+              <div className="logo svelte-1v7r4ll" ><Link to="/"><img src={ornament} alt="logo" style={{objectFit: 'cover', width: '10%'}}></img>TOGYZQ</Link></div> 
               
               <div className="menu svelte-1v7r4ll">
               <div className="item blue svelte-1v7r4ll"><Link to="/game">OINAU</Link></div> 
@@ -73,7 +73,7 @@ function Home () {
                 animation={true}
             />
             </Link>
-            <Link to="/game">
+            <Link to="/game1">
             <ReactiveButton
                 buttonState={state}
                 onClick={onClickHandler}

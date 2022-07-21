@@ -1,5 +1,6 @@
 import './App.css';
 import Game from './Game.js';
+import Game1 from './Game1.js';
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./Layout.js";
@@ -23,7 +24,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="game" element={<Game />} />
           <Route path="rules" element={<Rules />} />
-          <Route path="custom" element={<Custom />} />
+          <Route path="game1" element={<Game1 />} />
         </Route>
       </Routes>
     </BrowserRouter>

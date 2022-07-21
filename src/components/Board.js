@@ -140,6 +140,7 @@ function Board(props) {
     props.handlePlayer(currPlayer)
     if (hasFinished()) {
       console.log("Game finished");
+      alert("Game finished!");
     }
     console.log("counts", counts)
     console.log("newcounts", newcount)

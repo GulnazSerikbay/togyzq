@@ -17,7 +17,7 @@ function Rules () {
 
         <div className = "homepage text-light bg-transparent row">
             <div class="banner svelte-1v7r4ll ">
-              <div class="logo svelte-1v7r4ll" ><img src={ornament} alt="logo" style={{objectFit: 'cover', width: '10%'}}></img>TOGYZQ</div> 
+              <div class="logo svelte-1v7r4ll" ><Link to="/"><img src={ornament} alt="logo" style={{objectFit: 'cover', width: '10%'}}></img>TOGYZQ</Link></div> 
               
               <div className="menu svelte-1v7r4ll">
               <div className="item blue svelte-1v7r4ll"><a href="game">OINAU</a></div> 

@@ -41,7 +41,7 @@ function Otau(props) {
                     fontSize: 16, 
                     display: 'flex', 
                     alignItems: 'justify',
-                    border: (props.hoverHint === true) ? '3px solid lightblue' : '3px solid #cca481'}}
+                    border: (props.hoverHint === true) ? '3px solid yellow' : '3px solid #cca481'}}
                     onClick={props.onClick}    
                     onMouseEnter = {props.onMouseEnter}
                     onMouseLeave = {props.onMouseLeave}
