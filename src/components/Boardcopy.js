@@ -17,8 +17,8 @@ function Board(props) {
   const bgColor = '#ffdab9'
   const [visibility, setVisibility] = useState(false);
 
-  const ocount = 5;
-  const qcount = 5;
+  const ocount = 4;
+  const qcount = 9;
 
   const togglePop = () => {
     console.log(visibility)
@@ -81,33 +81,14 @@ function Board(props) {
           tuzdyq1: tuzdyq1, tuzdyq2: tuzdyq2})
 
 
-  const initBoard2 = [
-    { playerId: 0, id: 9, text: 'I', count: 9 },
-    { playerId: 0, id: 8, text: 'H', count: 9 },
-    { playerId: 0, id: 7, text: 'G', count: 9 },
-    { playerId: 0, id: 6, text: 'F', count: 9 },
-    { playerId: 0, id: 5, text: 'E', count: 9 },
-    { playerId: 0, id: 4, text: 'D', count: 9 },
-    { playerId: 0, id: 3, text: 'C', count: 9 },
-    { playerId: 0, id: 2, text: 'B', count: 9 },
-    { playerId: 0, id: 1, text: 'A', count: 2 },
-    { playerId: 1, id: 1, text: 'A', count: 0 },
-    { playerId: 1, id: 2, text: 'B', count: 0 },
-    { playerId: 1, id: 3, text: 'C', count: 0 },
-    { playerId: 1, id: 4, text: 'D', count: 0 },
-    { playerId: 1, id: 5, text: 'E', count: 0 },
-    { playerId: 1, id: 6, text: 'F', count: 0 },
-    { playerId: 1, id: 7, text: 'G', count: 0 },
-    { playerId: 1, id: 8, text: 'H', count: 0 },
-    { playerId: 1, id: 9, text: 'I', count: 1 },
-  ]
+
 
   const [containers, setContainers] = useState(initBoard)
 
   //switches the current player
   const switchPlayer = () => {
     const curr = currPlayer
-    setCurrPlayer((prevPlayer)=>prevPlayer===0?1:0)
+    setCurrPlayer((prevPlayer)=> prevPlayer===0 ? 1 : 0)
     setOpponent(curr)
     console.log('Player changed from: ' + currPlayer)
   }
@@ -182,7 +163,8 @@ function Board(props) {
 
   
 
-  const isEven = (playerId, id, count) => {
+  const isEven = (playerId, id, count, container ) => {
+    console.log("container sent: ", container)
     const tuzdyq = playerId ? tuzdyq1 : tuzdyq2; 
     console.log("Tuzdyq", playerId, tuzdyq);
     /* if last qumalak landed on other player's container    *
@@ -194,7 +176,7 @@ function Board(props) {
     if (count > 1) {
         const lastId = (id + count - 1) % ocount === 0 ? ocount : (id + count - 1) % ocount
         const rounds = Math.ceil((count + (id - 1)) / ocount) //how many board sides balls travel
-        const newcount = getCount(lastId, opponent, containers)
+        const newcount = getCount(lastId, opponent, container)
         console.log("count in the lastId", newcount);
 
         if (rounds % 2 === 0 &&  newcount % 2 !== 0) {
@@ -219,7 +201,7 @@ function Board(props) {
     else {//for count === 1 calculation must be different
         const lastId = id === ocount ? 1 : id+1
         const rounds = id === ocount ? 2 : 1 //how many board sides balls travel
-        const newcount = getCount(lastId, opponent, containers) 
+        const newcount = getCount(lastId, opponent, container) 
         //using opponent, cause if the lastId is not in opponen't side, condition will fail
         console.log("count in the lastId", newcount);
         if (rounds % 2 === 0 &&  newcount % 2 !== 0) {
@@ -346,23 +328,25 @@ function Board(props) {
       qazan1: qazan1, qazan2: qazan2,
       tuzdyq1: tuzdyq1, tuzdyq2: tuzdyq2
     });
-    
-    if (id === 9) {
+    let newcontainer;
+
+    if (id === ocount) {
       setContainers((prevContainer) =>{
-        const newcontainer = prevContainer.map((el) => {
+        newcontainer = prevContainer.map((el) => {
           if (el.id === 1 && el.playerId !== playerId) {
             return { ...el, count: el.count + 1 }
-          } else if (el.id === 9 && el.playerId === playerId){
+          } else if (el.id === ocount && el.playerId === playerId){
             return { ...el, count: 0 }
           } else return el
         })
         checkTuzdyq(newcontainer)
         return newcontainer
       }
-    )
+      )
+      console.log(newcontainer)
     } else {
       setContainers((prevContainer) => {
-        const newcontainer = prevContainer.map((el) => {
+        newcontainer = prevContainer.map((el) => {
           if (el.id === id + 1 && el.playerId === playerId) {
             return { ...el, count: el.count + 1 }
           } else if (el.id === id && el.playerId === playerId) {
@@ -372,8 +356,10 @@ function Board(props) {
         checkTuzdyq(newcontainer)
         return newcontainer
       }
-      )
+      ) 
+      console.log(newcontainer)
     }
+    return newcontainer
   }
 
   const oneMove = (playerId, id, count) => {
@@ -388,12 +374,12 @@ function Board(props) {
       qazan1: qazan1, qazan2: qazan2,
       tuzdyq1: tuzdyq1, tuzdyq2: tuzdyq2
     });
-
+    let lcount;
     setContainers((prevContainer) =>{
       
-      const newcontainer = prevContainer.map((el) => {
+    const newcontainer = prevContainer.map((el) => {
         if (el.id === id && el.playerId === playerId) {
-          return { ...el, count: 1 }
+          return { ...el, count: Math.ceil(rounds / 2) } //incorrect
         }
         if (rounds % 2 === 0) {
           //lands on the other side
@@ -433,10 +419,11 @@ function Board(props) {
       })
       console.log("newcontainer: ", newcontainer)
       checkTuzdyq(newcontainer)
+      lcount = getCount(lastId, opponent, newcontainer)
       return newcontainer
     }
     )
-  
+    return lcount
   }
 
   const undo = () => {
@@ -486,10 +473,10 @@ function Board(props) {
           console.log('Invalid move, not enough balls')
           return
         } else if (count === 1) {
-          onlyOne(playerId, id)
+          const newcontainer = onlyOne(playerId, id)
           
           // check for parity and win state
-          isEven(playerId, id, count)
+          isEven(playerId, id, count, newcontainer)
           //checkTuzdyq();
 
           switchPlayer()
@@ -498,10 +485,10 @@ function Board(props) {
         }
         // count > 1
         else {
-          oneMove(playerId, id, count)
-
+          const newcontainer = oneMove(playerId, id, count)
+            console.log(newcontainer)
           // check for parity and win state
-          isEven(playerId, id, count)
+          isEven(playerId, id, count, newcontainer)
           //checkTuzdyq();
   
           switchPlayer()

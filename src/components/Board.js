@@ -419,7 +419,7 @@ function Board(props) {
       
       const newcontainer = prevContainer.map((el) => {
         if (el.id === id && el.playerId === playerId) {
-          return { ...el, count: 1 }
+          return { ...el, count: Math.ceil(rounds/2) } //incorrect
         }
         if (rounds % 2 === 0) {
           //lands on the other side
