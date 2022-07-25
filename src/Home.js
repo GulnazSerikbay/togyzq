@@ -6,6 +6,13 @@ import { useState } from 'react';
 import ReactiveButton from 'reactive-button';
 import ornament from './assets/images/ornament.png';
 
+import Chat1 from './Chat1.js'
+
+//backend
+import { io } from 'socket.io-client'
+
+// to listening port
+const socket = io.connect("http://localhost:3000");
 
 
 function Home () {
@@ -18,6 +25,20 @@ function Home () {
        setState('success');
      }, 2000);
    };
+
+
+   // socket things
+   const [username, setUsername] = useState("");
+   const [room, setRoom] = useState("");
+   const [showChat, setShowChat] = useState(false);
+ 
+   const joinRoom = () => {
+     if (username !== "" && room !== "") {
+       socket.emit("join_room", room);
+       setShowChat(true);
+     }
+   };
+ 
     return (
 
         <div className = "homepage text-light bg-transparent row">
@@ -97,6 +118,30 @@ function Home () {
                 height={null}
                 animation={true}
             /></Link>
+  <div className='joinContainer '>
+      {   !showChat ? (
+        <div className="joinChatContainer">
+          <h3>Join A Room</h3>
+          <input
+            type="text"
+            placeholder="Qiyal..."
+            onChange={(event) => {
+              setUsername(event.target.value);
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Bolme ID..."
+            onChange={(event) => {
+              setRoom(event.target.value);
+            }}
+          />
+          <button onClick={joinRoom}>Oıynǵa kіrý</button>
+        </div>
+      ) : (
+        <Chat1 socket={socket} username={username} room={room} />
+      )}
+      </div>
            
         </div>
       );

@@ -51,6 +51,7 @@
   margin: 80px 20px;
   display: flex;
   justify-content: center;
+  
   font-family: 'Orbitron', sans-serif;
 }
 
@@ -65,4 +66,42 @@
 
 .navbar {
   background-color: #9a8572;
+}
+
+.joinChatContainer {
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.joinChatContainer h3 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.joinChatContainer input {
+  width: 210px;
+  height: 40px;
+  margin: 7px;
+  border: 2px solid rgba(88, 103, 221, 0.554);
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 16px;
+}
+
+.joinChatContainer button {
+  width: 225px;
+  height: 50px;
+  margin: 7px;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 16px;
+  background:  rgba(255, 193, 7, 1);
+  color: black;
+  cursor: pointer;
+}
+
+.joinChatContainer button:hover {
+  background: rgb(220, 165, 0);
 }

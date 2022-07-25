@@ -104,3 +104,29 @@ body {
     justify-content: flex-end;
     width: 70% !important;
 }
+
+@media only screen and (max-width: 800px) {
+    .area.svelte-s265wh img.svelte-s265wh {
+        position: relative;
+        width: 100%;
+        height: auto;
+        -webkit-mask-image: -webkit-linear-gradient(bottom, #000000, rgba(0, 0, 0, 0));
+        mask-image: -o-linear-gradient(bottom, #000000, rgba(0, 0, 0, 0));
+        mask-image: linear-gradient(to top, #000000, rgba(0, 0, 0, 0));
+        scale: 200%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+.area.svelte-s265wh.svelte-s265wh {
+    flex-direction: column-reverse;
+    overflow: hidden;
+}
+
+}
+
+@media only screen and (max-width: 800px) {
+    .area.svelte-s265wh .box.svelte-s265wh {
+        width: 100%;
+    }
+}
