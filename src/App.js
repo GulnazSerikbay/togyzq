@@ -8,6 +8,8 @@ import Home from "./Home.js";
 import Custom from "./Custom.js";
 import Rules from "./Rules.js";
 
+import Loading from "./Loading.js";
+
 
 
 import { useState } from 'react';
@@ -25,6 +27,8 @@ function App() {
           <Route path="game" element={<Game />} />
           <Route path="rules" element={<Rules />} />
           <Route path="game1" element={<Game1 />} />
+          <Route path="loading" element={<Loading />} />
+
         </Route>
       </Routes>
     </BrowserRouter>

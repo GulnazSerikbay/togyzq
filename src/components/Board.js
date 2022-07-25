@@ -7,6 +7,7 @@ import { Otau, Qazan } from './Otau.js'
 //import Game from "./Game.js"
 import { useState, useEffect } from 'react'
 import { useDebugValue } from 'react'
+import Form from 'react-bootstrap/Form';
 
 // write the logic for tuzdyq in map for onlyOne and oneMove (el.id===tuzdyq1)
 // player 0 owns tuzdyq2!!
@@ -65,7 +66,7 @@ function Board(props) {
           opponent: 0,
           tuzdyq1: tuzdyq1, tuzdyq2: tuzdyq2})
 
-
+// for testing purposes
   const initBoard2 = [
     { playerId: 0, id: 9, text: 'I', count: 9 },
     { playerId: 0, id: 8, text: 'H', count: 9 },
@@ -626,9 +627,66 @@ function Board(props) {
         }
     }*/
   console.log("containers",containers)
+  const list = [
+    {
+        id: "1",
+        name: "classic",
+        hint: "bossin"
+    },
+    {
+        id: "2",
+        name: "Aidar",
+        hint: "dark"
+    },
+    {
+        id: "3",
+        name: "soft",
+        hint: "worldwide crush"
+    },
+    {
+        id: "4",
+        name: "indie",
+        hint: "tuner"
+    },
+    {
+      id: "5",
+      name: "brown",
+      hint: "instacut"
+    },
+    {
+      id: "6",
+      name: "bw",
+      hint: "babyface hacker"
+    },
+    {
+      id: "7",
+      name: "lol",
+      hint: "dude from kyzylorda"
+    },
+    {
+      id: "8",
+      name: "lol",
+      hint: "doooha"
+    },
+
+]
+
+const options  = list.map((item) => item.name)
+const [selected, setSelected] = useState(-1); 
+const handleSelect = (e) => {
+  setSelected(e.target.value)
+  console.log("val:", e.target.value)
+} 
   return (
     <>
       <div className="board">
+      <Form.Select className = " col" id = "dropdown-basic" aria-label="Default select example"
+            onChange={handleSelect}>
+            <option>Open this select menu</option>
+            {options.map((option, id) =>
+              <option value = {id+1}>{option}</option>
+            )}
+        </Form.Select>
         <div className="board-side">
           {containers.map((item) => {
             if (item.playerId === 0) {
