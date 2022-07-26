@@ -52,6 +52,12 @@ body  {
     position: relative;
     text-decoration: none;
 }
+.miras{
+    display: flex;
+    justify-content: center;
+    
+}
+
 
 .banner.svelte-1v7r4ll.svelte-1v7r4ll .menu.svelte-1v7r4ll.svelte-1v7r4ll>.separator.svelte-1v7r4ll.svelte-1v7r4ll {
     width: 5px;
@@ -76,4 +82,10 @@ body  {
 .banner a {
     color: white;
     text-decoration: none;
+}
+
+.joinContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

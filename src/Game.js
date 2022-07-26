@@ -2,6 +2,8 @@ import './App.css';
 import Board from './components/Board.js';
 import User from './components/User.js';
 import Chat from './components/Chat.js';
+import { database } from './.firebase';
+
 
 import { useState } from 'react';
 

@@ -51,7 +51,7 @@
   margin: 80px 20px;
   display: flex;
   justify-content: center;
-  
+
   font-family: 'Orbitron', sans-serif;
 }
 
@@ -69,8 +69,10 @@
 }
 
 .joinChatContainer {
-  justify-self: center;
+  
+ 
   display: flex;
+  justify-content: center !important;
   flex-direction: column;
   text-align: center;
 }

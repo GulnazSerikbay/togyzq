@@ -7,6 +7,8 @@ import Layout from "./Layout.js";
 import Home from "./Home.js";
 import Custom from "./Custom.js";
 import Rules from "./Rules.js";
+import Empty from "./Empty.js";
+import Mock from "./Mock.js";
 
 import Loading from "./Loading.js";
 import { useState } from 'react';
@@ -30,10 +32,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="game" element={<Game />} />
+          <Route path="game/:id" element={<Mock/>} exact />
           <Route path="rules" element={<Rules />} />
           <Route path="game1" element={<Game1 />} />
           <Route path="loading" element={<Loading />} />
+          
 
         </Route>
       </Routes>
