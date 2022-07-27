@@ -2,9 +2,11 @@ import './App.css';
 import Board from './components/Board.js';
 import User from './components/User.js';
 import Chat from './components/Chat.js';
+import { Link } from "react-router-dom";
+import ornament from './assets/images/ornament.png';
 
 // adding multip
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
@@ -174,7 +176,7 @@ function Game(props) {
 
 
 
-
+    const childFunc = useRef(null)
 
 
     const [board, setBoard] = useState({
@@ -229,22 +231,44 @@ function Game(props) {
     
 
     return (
-        <div className='wrapper'> 
-         <button onClick={leave}>Leave Room</button>
-         {remoteData && remoteData.PLAYER_ONE && remoteData.PLAYER_TWO ? null : (
+        <div className='wrapper row'> 
+          <div className="banner svelte-1v7r4ll col-12">
+              <div className="logo svelte-1v7r4ll" ><Link to="/"><img src={ornament} alt="logo" style={{objectFit: 'cover', width: '10%'}}></img>TOGYZQ</Link></div> 
+              
+              <div className="menu svelte-1v7r4ll">
+              {remoteData && remoteData.PLAYER_ONE && remoteData.PLAYER_TWO ? null : (
             <>
-              <p>
-                Your room ID is {roomID}
-              </p>
-              <button onClick={copyRoomID}>Copy Room ID</button>
-            </>
+              <div className="item blue svelte-1v7r4ll">room ID is {roomID}</div> 
+          
+              <div className="item svelte-1v7r4ll" onClick={copyRoomID}>Copy Room ID
+              </div> 
+              </>
           )}
+              <div className="separator svelte-1v7r4ll"></div>
+              <div className="item svelte-1v7r4ll" onClick={leave}>LEAVE
+			          <div className="sub svelte-1v7r4ll">
+                  <a href="/" className="item svelte-1v7r4ll">WIKI</a> 
+                  <a href="/" className="item svelte-1v7r4ll">DISCORD</a> 
+                  <a href="/" className="item svelte-1v7r4ll">REDDIT</a> 
+                  <a href="/" className="item svelte-1v7r4ll">TWITCH</a>
+                </div>
+              </div> 
+              <div className="separator svelte-1v7r4ll"></div> 
+              
+              <div className="item svelte-1v7r4ll" onClick={() => childFunc.current()} >UNDO
+
+              </div>
+            </div>
+            </div>
+         
+
          {remoteData?.winner || remoteData?.draw ? (
           <button onClick={restart}>Restart</button>
         ) : null}
 
 
           <Board 
+              childFunc={childFunc}
               roomId = {id}
               onChange1 = {handleQazan1} 
               onChange2 = {handleQazan2}

@@ -37,11 +37,14 @@ function Otau(props) {
     return (
             <div 
                 className= 'container btn' 
-                style = {{backgroundColor: props.color, 
+                style = {{
+                    backgroundColor: props.color, 
                     fontSize: 16, 
                     display: 'flex', 
                     alignItems: 'justify',
-                    border: (props.hoverHint === true) ? '3px solid yellow' : '3px solid #cca481'}}
+                    transform: (props.hoverHint === true) ? 'scale(1.1)' : '',
+                    border: (props.hoverHint === true) ? '3px solid yellow' : '3px solid #cca481'
+                }}
                     onClick={props.onClick}    
                     onMouseEnter = {props.onMouseEnter}
                     onMouseLeave = {props.onMouseLeave}

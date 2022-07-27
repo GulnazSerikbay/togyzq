@@ -45,11 +45,13 @@ function Board(props) {
     });
   }, [props.id]);
 
+  useEffect(() => {
+    props.childFunc.current = undo
+  })
 
 
 
 
-  
 
   const bgColor = '#ffdab9'
   const [visibility, setVisibility] = useState(false);
@@ -302,9 +304,7 @@ function Board(props) {
     } 
     console.log({containers});*/
 
-    const overflowOtau = () => {
-
-    }
+  
 
     const hideHint = (playerId, id, count) => {
         console.log("hiding");
@@ -520,11 +520,11 @@ function Board(props) {
     if (currPlayer !== lastState.player && (!winner)) {
       setContainers(lastState.state);
       setQazan1(lastState.qazan1);
-      setQazan2(lastState.qazan2);
-      setTuzdyq1(lastState.tuzdyq1);
-      setTuzdyq2(lastState.tuzdyq2);
-      setCurrPlayer(lastState.player);
-      setOpponent(lastState.opponent);
+      setQazan2(lastState.qazan2); 
+      setTuzdyq1(lastState.tuzdyq1); 
+      setTuzdyq2(lastState.tuzdyq2); 
+      setCurrPlayer(lastState.player); 
+      setOpponent(lastState.opponent); 
       console.log("Player ", currPlayer, "undoed: ", lastState);
     }
     else {
@@ -781,12 +781,12 @@ const handleSelect = (e) => {
 
       </div>
       {visibility ? <PopUp toggle={togglePop} /> : null}
-      <button className='undo' onClick={undo}>Undo</button> 
+     
       
  
    
     </>
   )
 }
-export default Board
+export default Board;
 // <button onClick={togglePop}>Toggle Popup</button> 

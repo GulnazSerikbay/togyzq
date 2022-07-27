@@ -122,7 +122,7 @@ function createGame() {
               <div className="logo svelte-1v7r4ll" ><Link to="/"><img src={ornament} alt="logo" style={{objectFit: 'cover', width: '10%'}}></img>TOGYZQ</Link></div> 
               
               <div className="menu svelte-1v7r4ll">
-              <div className="item blue svelte-1v7r4ll"><Link to="/game">OINAU</Link></div> 
+              <div className="item blue svelte-1v7r4ll"><Link to="/game">OINAU: BETA</Link></div> 
               
               <div className="separator svelte-1v7r4ll"></div> 
               <div className="item svelte-1v7r4ll"><Link to="/rules">RULES</Link>
@@ -137,15 +137,51 @@ function createGame() {
               </div> 
               <div className="separator svelte-1v7r4ll"></div> 
               
-              <div className="item svelte-1v7r4ll">LOGIN
+              <div className="item svelte-1v7r4ll">LOL
 
               </div>
             </div>
             </div>
            
 
-            <div className='miras col-6'>
-          <Link to="/game">
+              
+        <div className='joinContainer '>
+        <div className="joinChatContainer">
+              
+              <input
+                type="text"
+                placeholder="Username..."
+               
+               
+              />
+              <button onClick={onCreateRoomClick}>Create room</button>
+              <button onClick={onJoinRoomClick} lol='Oıynǵa kіrý'>Join room</button>
+
+            </div>
+            </div>
+           
+        </div>
+      );
+  }
+  
+  export default Home;
+
+
+
+
+
+
+
+            /* {   !showChat ? (
+
+            ) : (
+              null//<Chat1  username={username} room={room} />
+            )} */
+
+
+
+/*
+            <Link to="/game">
       
             <ReactiveButton 
                 buttonState={state}
@@ -172,7 +208,7 @@ function createGame() {
             />
             </Link>
             
-            <ReactiveButton
+                        <ReactiveButton
                 buttonState={state}
                 onClick={onCreateRoomClick}
                 color={'yellow'}
@@ -195,35 +231,4 @@ function createGame() {
                 height={null}
                 animation={false}
             />
-            </div>
-              
-        <div className='joinContainer col-6'>
-        <div className="joinChatContainer">
-              
-              <input
-                type="text"
-                placeholder="Qiyal..."
-               
-               
-              />
-              <button onClick={onJoinRoomClick}>Oıynǵa kіrý</button>
-            </div>
-            </div>
-           
-        </div>
-      );
-  }
-  
-  export default Home;
-
-
-
-
-
-
-
-            /* {   !showChat ? (
-
-            ) : (
-              null//<Chat1  username={username} room={room} />
-            )} */
+            */
