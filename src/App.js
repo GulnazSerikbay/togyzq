@@ -32,7 +32,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="game/:id" element={<Mock/>} exact />
+          <Route path="game/:id" element={<Game/>} exact />
+          <Route path="play/" element={<Mock/>} exact />
           <Route path="rules" element={<Rules />} />
           <Route path="game1" element={<Game1 />} />
           <Route path="loading" element={<Loading />} />

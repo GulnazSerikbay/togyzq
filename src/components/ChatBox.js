@@ -5,7 +5,7 @@ import { firestore } from '../.firebase';
 import { GlobalContext } from '../context/GlobalContext';
 import ScrollToBottom from 'react-scroll-to-bottom';
 
-function ChatBox({ roomID }) {
+function ChatBox({roomID}) {
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState([]);
   const { state } = useContext(GlobalContext);

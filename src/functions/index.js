@@ -19,8 +19,9 @@ const joinRoom = async (roomID, name) => {
   let gameObj = snap.val();
 
   // see which player is already in the room then enter another player accordingly
-  if (gameObj.PLAYER_ONE) gameObj.PLAYER_TWO = name;
-  else gameObj.PLAYER_ONE = name;
+  if (gameObj.PLAYER_ONE && !gameObj.PLAYER_TWO) gameObj.PLAYER_TWO = name;
+  else if (gameObj.PLAYER_ONE && !gameObj.PLAYER_TWO) gameObj.PLAYER_ONE = name;
+  else return alert("Can't join room");
 
   return new Promise((resolve, reject) => {
     database

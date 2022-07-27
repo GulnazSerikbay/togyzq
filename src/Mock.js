@@ -75,7 +75,7 @@ function Mock(props) {
     game.mark(index);
 
     const data = JSON.parse(JSON.stringify(game));
-    console.log(data);
+    console.log("data", data);
     try {
       await sendData(roomID, data);
     } catch (error) {

@@ -11,7 +11,7 @@ function User(props) {
                 <span className="userspan m-2 border-radius-3">
                     <FaUserAstronaut size={60} style = {{color: "white", fontSize: "1.5em"}} />
                 </span>
-                <p>user: {props.id}, score: {props.score}</p>
+                <p>id: {props.id} user: {props.name}, score: {props.score}</p>
                 <button className='req'>Undo</button>  
         </div>
         

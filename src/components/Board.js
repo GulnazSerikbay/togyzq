@@ -5,9 +5,20 @@ import PopUp from "./Popup";
 import './Board.css'
 import { Otau, Qazan } from './Otau.js'
 //import Game from "./Game.js"
-import { useState, useEffect } from 'react'
+import { useEffect, useContext, useState  } from 'react'
 import { useDebugValue } from 'react'
 import Form from 'react-bootstrap/Form';
+
+
+
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+
+
+import { GameBoard } from '../lib/game';
+import { GlobalContext } from '../context/GlobalContext';
+import { database } from '../.firebase';
+import { leaveRoom, sendData } from '../functions';
 
 // write the logic for tuzdyq in map for onlyOne and oneMove (el.id===tuzdyq1)
 // player 0 owns tuzdyq2!!
@@ -15,6 +26,31 @@ import Form from 'react-bootstrap/Form';
 
 
 function Board(props) {
+
+
+  const { state } = useContext(GlobalContext);
+  const [remoteData, setRemoteData] = useState(null);
+  const [wins, setWins] = useState({ me: 0, other: 0 });
+
+  const history = useNavigate();
+
+
+  useEffect(() => {
+    console.log("id in gamejs", props.id)
+    
+    // get live data from remote server and update it in state
+    database.ref(props.id).on('value', (snap) => {
+      setRemoteData(snap.val());
+      console.log("remoteData", snap.val());
+    });
+  }, [props.id]);
+
+
+
+
+
+  
+
   const bgColor = '#ffdab9'
   const [visibility, setVisibility] = useState(false);
 
@@ -200,6 +236,7 @@ function Board(props) {
 
         if (rounds % 2 === 0 &&  newcount % 2 !== 0) {
             
+
             console.log('Even! Moving to qazan.')
             moveToQazan(opponent, newcount + 1, lastId)
             
@@ -322,7 +359,7 @@ function Board(props) {
 
     const getTuzdyq = (id, playerId) => {
       // request for tuzdyq or not
-      
+      console.log("Entered Tuzdyq zone")
       if (id === 9) {
         console.log("can't get tuzdyq");
         return false;
@@ -343,9 +380,9 @@ function Board(props) {
     }
 
     const moveToQazan = (playerId, count, id) =>{
+
         // take all balls from otau
         setContainers((prevContainer) => {
-        
           const newcontainer = prevContainer.map((el) => {
             if (el.id === id && el.playerId === playerId) {
                 console.log("Taking", count, "balls from id:", id, "Player", playerId)
@@ -356,11 +393,19 @@ function Board(props) {
         }
         )
         if (playerId  === 0) {
-            setQazan2((prevcount) => prevcount+ count);
-            //console.log("qazan1: " + qazan1)
+            setQazan2((prevcount) => {
+              console.log("qazan2 lol: ", prevcount+count)
+              return prevcount+count
+            });
+            
         }
         if (playerId  === 1) {
-            setQazan1((prevcount) => prevcount+ count);
+            setQazan1((prevcount) => {
+              console.log("qazan1 lol: ", prevcount+count)
+              return prevcount+count
+            } 
+            );
+            
             //console.log("qazan2: " + qazan2)
         }
     } 
@@ -419,8 +464,12 @@ function Board(props) {
     setContainers((prevContainer) =>{
       
       const newcontainer = prevContainer.map((el) => {
-        if (el.id === id && el.playerId === playerId) {
+        if (el.id === id && el.playerId === playerId && el.id <= lastId) {
+          console.log("adding ", Math.ceil(rounds/2))
           return { ...el, count: Math.ceil(rounds/2) } //incorrect
+        }
+        if (el.id === id && el.playerId === playerId && el.id > lastId) {
+          return { ...el, count: Math.floor(rounds/2) } //incorrect
         }
         if (rounds % 2 === 0) {
           //lands on the other side
@@ -490,18 +539,21 @@ function Board(props) {
       console.log("There's ", tcount1, "balls in t", tuzdyq1, "of 0");
       moveToQazan(0, tcount1, tuzdyq1) // from 0th player
     }
-    
+    else {
+      console.log("No tuzdyq for Player 0")
+    }
     if (tuzdyq2 !== 0) {
       const tcount2 = getCount(tuzdyq2, 1, list);
       console.log("There's ", tcount2, "balls in t", tuzdyq2, "of 1");
       moveToQazan(1, tcount2, tuzdyq2) // from 1st player
     }
     else {
-      console.log("No tuzdyq")
+      console.log("No tuzdyq for Player 1")
     }
   }
 
   const makeMove = (playerId, id, count) => {
+
     // player can't move on other's side
     if (!winner) {
       if (playerId === currPlayer) {
