@@ -255,9 +255,11 @@ function Game(props) {
               </div> 
               <div className="separator svelte-1v7r4ll"></div> 
               
-              <div className="item svelte-1v7r4ll" onClick={() => childFunc.current()} >UNDO
+              <div className="item svelte-1v7r4ll" onClick={() => childFunc.current()} >UNDO</div>
+              <div className="separator svelte-1v7r4ll"></div>
+              <div className="item svelte-1v7r4ll"  >Dark</div>
 
-              </div>
+              
             </div>
             </div>
          
@@ -276,9 +278,9 @@ function Game(props) {
           />
   
           <div className='rightside col'> 
-            <User id="0" name={remoteData?.PLAYER_ONE} score={board.qazan1} playing = {board.currPlayer===0 ? true: false}/>
+            <User id="0" name={remoteData?.PLAYER_ONE} you={state.username===remoteData?.PLAYER_ONE ? true : false} score={board.qazan1} playing = {board.currPlayer===0 ? true: false}/>
             <Chat roomID={roomID} />
-            <User id="1" name={remoteData?.PLAYER_TWO ? remoteData?.PLAYER_TWO : 'Waiting...'} score={board.qazan2} playing = {board.currPlayer===1 ? true: false}/>
+            <User id="1" name={remoteData?.PLAYER_TWO ? remoteData?.PLAYER_TWO : 'Waiting...'} you={state.username===remoteData?.PLAYER_ONE ? false : true} score={board.qazan2} playing = {board.currPlayer===1 ? true: false}/>
   
           </div>
         </div>);

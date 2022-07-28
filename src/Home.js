@@ -75,19 +75,58 @@ function createGame() {
     const { setUsername } = useContext(GlobalContext);
 
     const onCreateRoomClick = async () => {
-      let name = prompt('What is your name?') || '';
-      if (name.trim() === '') return;
-  
-      let gameObj = JSON.parse(JSON.stringify(new GameBoard(name, null)));
-      gameObj._turn = name;
+      //let name = prompt('What is your name?') || '';
+      if (userinput.trim() === '') return;
+      const initBoard = [
+        { playerId: 0, id: 9, text: 'I', count: 9, hover: false },
+        { playerId: 0, id: 8, text: 'H', count: 9, hover: false },
+        { playerId: 0, id: 7, text: 'G', count: 9, hover: false },
+        { playerId: 0, id: 6, text: 'F', count: 9, hover: false },
+        { playerId: 0, id: 5, text: 'E', count: 9, hover: false },
+        { playerId: 0, id: 4, text: 'D', count: 9, hover: false },
+        { playerId: 0, id: 3, text: 'C', count: 9, hover: false },
+        { playerId: 0, id: 2, text: 'B', count: 9, hover: false },
+        { playerId: 0, id: 1, text: 'A', count: 9, hover: false },
+        { playerId: 1, id: 1, text: 'A', count: 9, hover: false },
+        { playerId: 1, id: 2, text: 'B', count: 9, hover: false },
+        { playerId: 1, id: 3, text: 'C', count: 9, hover: false },
+        { playerId: 1, id: 4, text: 'D', count: 9, hover: false },
+        { playerId: 1, id: 5, text: 'E', count: 9, hover: false },
+        { playerId: 1, id: 6, text: 'F', count: 9, hover: false },
+        { playerId: 1, id: 7, text: 'G', count: 9, hover: false },
+        { playerId: 1, id: 8, text: 'H', count: 9, hover: false },
+        { playerId: 1, id: 9, text: 'I', count: 9, hover: false },
+      ]
+      const lastState = {
+        state: initBoard, 
+        qazan1: 0, qazan2: 0, 
+        player: 1, 
+        opponent: 0,
+        tuzdyq1: 0, tuzdyq2: 0}
+
+      const initGame = {
+        qazan1: 0,
+        qazan2: 0,
+        tuzdyq1: 0,
+        tuzdyq2: 0,
+        currPlayer: 1,
+        opponent: 0,
+        winner: 0,
+        counts: [81, 81],
+        lastState: lastState,
+        containers: initBoard
+      }
+
+      let gameObj = JSON.parse(JSON.stringify(initGame));
+      //gameObj.currPlayer = userinput;
       console.log(gameObj)
 
       try {
         let { roomID } = await createRoom({
           ...gameObj,
-          PLAYER_ONE: name,
+          PLAYER_ONE: userinput,
         });
-        await setUsername(name);
+        await setUsername(userinput);
         history(`/game/${roomID}`);
         
       } catch (error) {
@@ -98,8 +137,8 @@ function createGame() {
 
     
     const onJoinRoomClick = async () => {
-      let roomID = prompt('Please enter Room ID') || '';
-      let name = prompt('What is your name?') || '';
+      let roomID = idpass;
+      let name = userinput;
   
       if (roomID.trim() === '' || name.trim() === '') return;
   
@@ -110,9 +149,21 @@ function createGame() {
         history(`/game/${response.roomID}`);
       } catch (error) {
         console.log(error);
-        alert('No such room! Please eneter a valid Room ID');
+        alert('No such room! Please enter a valid Room ID');
       }
       
+    };
+
+    const [userinput, setUserinput] = useState('')
+
+    const handleInputChange = (event) => {
+      setUserinput(event.target.value );
+    };
+
+    const [idpass, setIdpass] = useState('')
+
+    const handleIDChange = (event) => {
+      setUserinput(event.target.value );
     };
 
     return (
@@ -151,8 +202,12 @@ function createGame() {
               <input
                 type="text"
                 placeholder="Username..."
-               
-               
+                onChange={handleInputChange}
+              />
+              <input
+                type="text"
+                placeholder="roomID..."
+                onChange={handleIDChange}
               />
               <button onClick={onCreateRoomClick}>Create room</button>
               <button onClick={onJoinRoomClick} lol='Oıynǵa kіrý'>Join room</button>

@@ -28,3 +28,8 @@
     align-self: flex-end;
     width: 100%;
 }
+.chat__messages {
+    width: 100%;
+    overflow: scroll;
+    max-height: 80%;
+  }

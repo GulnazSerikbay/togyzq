@@ -2,7 +2,7 @@ import { createContext, useReducer } from 'react';
 import reducer from './Reducer';
 
 const initialState = {
-  username: `Player X`,
+  username: `Player 1`,
 };
 
 const GlobalContext = createContext(initialState);

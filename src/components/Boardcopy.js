@@ -18,7 +18,7 @@ function Board(props) {
   const [visibility, setVisibility] = useState(false);
 
   const ocount = 4;
-  const qcount = 9;
+  const qcount = 8;
 
   const togglePop = () => {
     console.log(visibility)
