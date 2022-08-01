@@ -44,8 +44,8 @@ function Game(props) {
         setRemoteData(snap.val());
         console.log("remoteData", snap.val());
       });
-    }, [id]);
-
+    }, [props.id]);
+/*
     //not sure if i need it
     useEffect(() => {
       if (remoteData?.winner) {
@@ -55,8 +55,8 @@ function Game(props) {
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [remoteData?.winner, state.username]);
-  
-
+  */
+/*
     useEffect(() => {
       if (remoteData?.winner)
         setTimeout(
@@ -77,7 +77,7 @@ function Game(props) {
         }, 1000);
       }
     }, [remoteData?.draw, remoteData?.winner, state.username]);
-  
+  */
 
     const mark = async (index) => {
       if (remoteData._turn !== state.username) {
@@ -112,7 +112,7 @@ function Game(props) {
         console.log(error);
       }
     };
-
+/*
     //here
     useEffect(() => {
       if (remoteData?.winner)
@@ -134,7 +134,7 @@ function Game(props) {
         }, 1000);
       }
     }, [remoteData?.draw, remoteData?.winner, state.username]);
-  
+  */
     //here
     const restart = async () => {
       const data = {
@@ -270,6 +270,8 @@ function Game(props) {
 
 
           <Board 
+              player1 = {remoteData?.PLAYER_ONE}
+              player2 = {remoteData?.PLAYER_TWO}
               childFunc={childFunc}
               roomId = {id}
               onChange1 = {handleQazan1} 

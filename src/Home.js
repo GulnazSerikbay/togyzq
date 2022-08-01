@@ -73,6 +73,9 @@ function createGame() {
     //adding firebase things
     const history = useNavigate();
     const { setUsername } = useContext(GlobalContext);
+   // const { setId } = useContext(GlobalContext);
+
+    //const { setUserId } = useContext(GlobalContext);
 
     const onCreateRoomClick = async () => {
       //let name = prompt('What is your name?') || '';
@@ -102,7 +105,8 @@ function createGame() {
         qazan1: 0, qazan2: 0, 
         player: 1, 
         opponent: 0,
-        tuzdyq1: 0, tuzdyq2: 0}
+        tuzdyq1: 0, tuzdyq2: 0
+      }
 
       const initGame = {
         qazan1: 0,
@@ -114,7 +118,9 @@ function createGame() {
         winner: 0,
         counts: [81, 81],
         lastState: lastState,
-        containers: initBoard
+        containers: initBoard,
+        PLAYER_ONE: null,
+        PLAYER_TWO: null
       }
 
       let gameObj = JSON.parse(JSON.stringify(initGame));
@@ -122,11 +128,13 @@ function createGame() {
       console.log(gameObj)
 
       try {
+        console.log("username", userinput);
         let { roomID } = await createRoom({
           ...gameObj,
           PLAYER_ONE: userinput,
         });
         await setUsername(userinput);
+        //await setId(0);
         history(`/game/${roomID}`);
         
       } catch (error) {
@@ -139,6 +147,8 @@ function createGame() {
     const onJoinRoomClick = async () => {
       let roomID = idpass;
       let name = userinput;
+
+      console.log(idpass, "and", userinput);
   
       if (roomID.trim() === '' || name.trim() === '') return;
   
@@ -146,6 +156,7 @@ function createGame() {
       try {
         let response = await joinRoom(roomID, name);
         await setUsername(name);
+        //(1);
         history(`/game/${response.roomID}`);
       } catch (error) {
         console.log(error);
@@ -163,7 +174,7 @@ function createGame() {
     const [idpass, setIdpass] = useState('')
 
     const handleIDChange = (event) => {
-      setUserinput(event.target.value );
+      setIdpass(event.target.value );
     };
 
     return (

@@ -4,7 +4,7 @@ import firebase from 'firebase/compat/app';
 const createRoom = (obj) => {
   const id = new Date().getTime();
   return new Promise((resolve, reject) => {
-    console.log(`${id}`)
+    console.log("created with obj ",obj)
     database
       .ref(`${id}`)
       .set(obj)
@@ -20,7 +20,7 @@ const joinRoom = async (roomID, name) => {
 
   // see which player is already in the room then enter another player accordingly
   if (gameObj.PLAYER_ONE && !gameObj.PLAYER_TWO) gameObj.PLAYER_TWO = name;
-  else if (gameObj.PLAYER_ONE && !gameObj.PLAYER_TWO) gameObj.PLAYER_ONE = name;
+  else if (gameObj.PLAYER_TWO && !gameObj.PLAYER_ONE) gameObj.PLAYER_ONE = name;
   else return alert("Can't join room");
 
   return new Promise((resolve, reject) => {
@@ -84,6 +84,16 @@ const sendData = async (roomID, data) => {
   });
 };
 
+const updateData = async (roomID, data) => {
+    return new Promise((resolve, reject) => {
+      database
+        .ref(roomID)
+        .update(data)
+        .then(() => resolve(roomID))
+        .catch((error) => reject(error));
+    });
+  };
+
 const createChatRoom = (roomID) => {
   return new Promise((resolve, reject) => {
     firestore
@@ -117,4 +127,5 @@ export {
   leaveRoom,
   createChatRoom,
   sendMessage,
+  updateData
 };

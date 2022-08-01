@@ -18,7 +18,8 @@ import { useParams } from 'react-router-dom';
 import { GameBoard } from '../lib/game';
 import { GlobalContext } from '../context/GlobalContext';
 import { database } from '../.firebase';
-import { leaveRoom, sendData } from '../functions';
+import { leaveRoom, sendData, updateData } from '../functions';
+import { render } from '@testing-library/react';
 
 // write the logic for tuzdyq in map for onlyOne and oneMove (el.id===tuzdyq1)
 // player 0 owns tuzdyq2!!
@@ -30,9 +31,9 @@ function Board(props) {
   const { state } = useContext(GlobalContext);
   const [remoteData, setRemoteData] = useState(null);
   //const [wins, setWins] = useState({ me: 0, other: 0 });
-
+  const [players, setPlayers] = useState([null, null]);
   const history = useNavigate();
-
+  
   useEffect(() => {
     console.log("id in gamejs", props.id)
     
@@ -40,8 +41,13 @@ function Board(props) {
     database.ref(props.id).on('value', (snap) => {
       setRemoteData(snap.val());
       console.log("remoteData", snap.val());
+      setGame(snap.val())
+      setPlayers([snap.val().PLAYER_ONE, snap.val().PLAYER_TWO]);
+      console.log(players);
     });
+
   }, [props.id]);
+
 
   //not sure if i need it
   /*
@@ -77,29 +83,7 @@ function Board(props) {
   }, [remoteData?.winner, state.username]);
 */
 
-  const  mark = async (index) => {
-    /*if (remoteData._turn !== state.username) {
-      console.log('It is not your turn');
-      return;
-    }*/
 
-    const { PLAYER_ONE, PLAYER_TWO } = remoteData;
-
-    /*let game = new GameBoard(PLAYER_ONE, PLAYER_TWO);
-    game.board = remoteData.board;
-    game._turn = remoteData._turn;
-    game.winner = remoteData.winner ? remoteData.winner : null;
-
-    game.mark(index);
-*/
-    const data = JSON.parse(JSON.stringify(game));
-    console.log(data);
-    try {
-      await sendData(props.id, data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
 
 
@@ -191,6 +175,8 @@ function Board(props) {
 
   const [containers, setContainers] = useState(initBoard)
   
+
+
   const initGame = {
     qazan1: qazan1,
     qazan2: qazan2,
@@ -202,12 +188,13 @@ function Board(props) {
     counts: counts,
     lastState: lastState,
     containers: initBoard,
-    
+    PLAYER_ONE: remoteData?.PLAYER_ONE,
+    PLAYER_TWO: remoteData?.PLAYER_TWO
   }
 
 
-  
   const [game, setGame] = useState(initGame)
+  
 
 
 
@@ -238,16 +225,16 @@ function Board(props) {
     setCurrPlayer((prevPlayer)=>prevPlayer===0 ? 1 : 0)
     setOpponent(curr)
 
-    console.log('Player changed from: ' + remoteData.currPlayer)
+    console.log('Player changed from: ' + game.currPlayer)
   }
 
   // recalculates how many qumalaks each side has
   const recalculate = () => {
-    const newcount = containers.reduce(
+    const newcount = game.containers.reduce(
       ([c1,c2], {count, playerId}) => [playerId===0? c1+count:c1, playerId===1? c2+count:c2],
       [0,0]
     ) 
-    setCounts(newcount)
+    //setCounts(newcount)
     setGame((prev) => {
         return { ...prev, 
           counts: prev.containers.reduce(
@@ -261,28 +248,41 @@ function Board(props) {
 
   }
 
+  const update = async (sending) => {
+
+    const data =  JSON.parse(JSON.stringify(sending ));
+
+    try {
+      console.log("data being sent", game);
+      await updateData(props.id, data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
-    console.log(game.containers)
+    //console.log(game.containers)
     console.log("qazan1: " + game.qazan1)
     console.log("qazan2: " + game.qazan2);
     props.onChange1(game.qazan1)  
     props.onChange2(game.qazan2)  
 
     const newcount = recalculate()
-    if (counts[0]===0) {
+    if (game.counts[0]===0) {
       atsyrau(0)
       
     }
-    if (counts[1]===0) {
+    if (game.counts[1]===0) {
       atsyrau(1)
     }
-    props.handlePlayer(currPlayer)
+
+    props.handlePlayer(game.currPlayer)
     if (hasFinished()) {
-      console.log("winner", remoteData?.winner);
+      console.log("winner", game?.winner);
       console.log("Game finished");
       alert("Game finished!");
     }
-    console.log("counts", counts)
+    console.log("counts", game.counts)
     console.log("newcounts", newcount)
 
     console.assert(newcount[0]+newcount[1]+game.qazan1+game.qazan2 === 162, newcount[0]+newcount[1]+game.qazan1+game.qazan2);
@@ -300,24 +300,23 @@ function Board(props) {
     }
     ) */
 
-    const update = async () => {
-      const data =  JSON.parse(JSON.stringify(game ));
+  setGame((prev) =>(
+    {
+        ...prev,
+      PLAYER_ONE: remoteData?.PLAYER_ONE,
+      PLAYER_TWO: remoteData?.PLAYER_TWO
+  })
+  )
+    
+   update(game);
 
-      try {
-        await sendData(props.id, data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    update();
-
-  }, [game.containers, game.qazan1, game.qazan2])
+  }, [game.containers, props.id])
 
   const winMessage = () => {
-    console.log("winner",remoteData.winner)
-    if (remoteData.winner) {
+    console.log("winner",game.winner)
+    if (game.winner) {
       alert("Game finished!")
-      console.log(`winner is ${remoteData.winner}`)
+      console.log(`winner is ${game.winner}`)
     }
   }
 
@@ -366,7 +365,7 @@ function Board(props) {
   
 
   const isEven = (playerId, id, count) => {
-    const tuzdyq = playerId ? remoteData.tuzdyq1 : remoteData.tuzdyq2; 
+    const tuzdyq = playerId ? game.tuzdyq1 : game.tuzdyq2; 
     console.log("Tuzdyq", playerId, tuzdyq);
     /* if last qumalak landed on other player's container    *
      *  and there's even, then move to Qazan                 */
@@ -377,13 +376,13 @@ function Board(props) {
     if (count > 1) {
         const lastId = (id + count - 1) % 9 === 0 ? 9 : (id + count - 1) % 9
         const rounds = Math.ceil((count + (id - 1)) / 9) //how many board sides balls travel
-        const newcount = getCount(lastId, remoteData.opponent, remoteData.containers)
+        const newcount = getCount(lastId, game.opponent, game.containers)
         console.log("count in the lastId", newcount);
 
         if (rounds % 2 === 0 &&  newcount % 2 !== 0) {
 
             console.log('Even! Moving to qazan.')
-            moveToQazan(remoteData.opponent, newcount + 1, lastId)
+            moveToQazan(game.opponent, newcount + 1, lastId)
             
         }
         else if (tuzdyq === 0 && rounds % 2 === 0 && newcount === 2) {
@@ -392,7 +391,7 @@ function Board(props) {
             const success = getTuzdyq(lastId, playerId)
             if (success) {
               console.log('Tuzdyq! Moving to qazan.')
-              moveToQazan(remoteData.opponent, newcount+1, lastId) 
+              moveToQazan(game.opponent, newcount+1, lastId) 
             }
         }
         /*if (lastId === tuzdyq1 && playerId !== ) {
@@ -402,13 +401,13 @@ function Board(props) {
     else {//for count === 1 calculation must be different
         const lastId = id === 9 ? 1 : id+1
         const rounds = id === 9 ? 2 : 1 //how many board sides balls travel
-        const newcount = getCount(lastId, remoteData.opponent, remoteData.containers) 
+        const newcount = getCount(lastId, game.opponent, game.containers) 
         //using opponent, cause if the lastId is not in opponen't side, condition will fail
         console.log("count in the lastId", newcount);
         if (rounds % 2 === 0 &&  newcount % 2 !== 0) {
             
             console.log('Even! Moving to qazan.')
-            moveToQazan(remoteData.opponent, newcount+1, lastId)
+            moveToQazan(game.opponent, newcount+1, lastId)
 
         }
         else if (tuzdyq === 0  && rounds % 2 === 0 && newcount === 2){
@@ -416,7 +415,7 @@ function Board(props) {
             const success = getTuzdyq(lastId, playerId)
             if (success) {
               console.log('Tuzdyq! Moving to qazan.')
-              moveToQazan(remoteData.opponent, newcount+1, lastId) 
+              moveToQazan(game.opponent, newcount+1, lastId) 
             }
         }
     }
@@ -451,9 +450,9 @@ function Board(props) {
 
     const hideHint = (playerId, id, count) => {
         console.log("hiding");
-        setContainers((prevContainer) => 
+        /* setContainers((prevContainer) => 
           prevContainer.map((el) => ({ ...el, hover: false} )));
-        
+        */
         setGame((prev) => {
             return { ...prev, 
               containers: prev.containers.map((el) => ({ ...el, hover: false} ))
@@ -470,13 +469,13 @@ function Board(props) {
           const rounds = id === 9 ? 2 : 1 //how many board sides balls travel
           const lastPlayerId = (rounds % 2 === 0) ? opponent : currPlayer
           
-          setContainers((prevContainer) => 
+          /*setContainers((prevContainer) => 
             prevContainer.map((el) => {
               if (el.id === lastId && el.playerId === lastPlayerId) {
                   return { ...el, hover: true} 
               } else return el
 
-          }));
+          }));*/
 
           setGame((prev) => {
             return { ...prev, 
@@ -495,17 +494,17 @@ function Board(props) {
           
           const lastId = (id + count - 1) % 9 === 0 ? 9 : (id + count - 1) % 9
           const rounds = Math.ceil((count + (id - 1)) / 9) //how many board sides balls travel
-          const lastPlayerId = (rounds % 2 === 0) ? remoteData.opponent : remoteData.currPlayer
+          const lastPlayerId = (rounds % 2 === 0) ? game.opponent : game.currPlayer
           console.log("hovered: ", lastId, lastPlayerId)
           
-          setContainers((prevContainer) => 
+          /*setContainers((prevContainer) => 
             prevContainer.map((el) => {
               if (el.id === lastId && el.playerId === lastPlayerId) {
                   return { ...el, hover: true} 
               } else return el
 
           }));
-
+*/
           setGame((prev) => {
               return { ...prev, 
                 containers: prev.containers.map((el) => {
@@ -525,7 +524,7 @@ function Board(props) {
 
     // when player can't move cos of 0 qumalaks 
     const atsyrau = (playerId) => {
-      setWinner(playerId===0 ? 'Player2' : 'Player1')
+      //setWinner(playerId===0 ? 'Player2' : 'Player1')
       setGame((prev) => {
           return { ...prev, 
             winner: playerId===0 ? 'Player2' : 'Player1'
@@ -549,7 +548,7 @@ function Board(props) {
       else if (playerId === 0) {
         alert("tuzdyq")
         console.log("player 1 getting tuzdyq", id);
-        setTuzdyq2(id);
+        //setTuzdyq2(id);
 
         setGame((prev) => {
             return { ...prev, 
@@ -562,7 +561,7 @@ function Board(props) {
       else if (playerId === 1) {
         alert("tuzdyq")
         console.log("player 2 getting tuzdyq", id);
-        setTuzdyq1(id);
+        //setTuzdyq1(id);
         setGame((prev) => {
             return { ...prev, 
               tuzdyq1: id
@@ -577,7 +576,7 @@ function Board(props) {
     const moveToQazan = (playerId, count, id) =>{
 
         // take all balls from otau
-        setContainers((prevContainer) => {
+        /*setContainers((prevContainer) => {
           const newcontainer = prevContainer.map((el) => {
             if (el.id === id && el.playerId === playerId) {
                 console.log("Taking", count, "balls from id:", id, "Player", playerId)
@@ -585,7 +584,7 @@ function Board(props) {
             } else return el
           })
           return newcontainer
-        })
+        })*/
 
         setGame((prev) => {
           const newcontainer = prev.containers.map((el) => {
@@ -601,10 +600,10 @@ function Board(props) {
         )
 
         if (playerId  === 0) {
-            setQazan2((prevcount) => {
+            /*setQazan2((prevcount) => {
               console.log("qazan2 lol: ", prevcount+count)
               return prevcount+count
-            });
+            });*/
             setGame((prev) => {
                 return { ...prev, 
                   qazan2: prev.qazan2+count
@@ -614,11 +613,11 @@ function Board(props) {
             
         }
         if (playerId  === 1) {
-            setQazan1((prevcount) => {
+            /*setQazan1((prevcount) => {
               console.log("qazan1 lol: ", prevcount+count)
               return prevcount+count
             } 
-            );
+            );*/
             setGame((prev) => {
                 return { ...prev, 
                   qazan1: prev.qazan1+count
@@ -632,13 +631,13 @@ function Board(props) {
 
   /* Helper: edge case, when only 1 qumalak in a container */
   const onlyOne = (playerId, id) => {
-    setLastState({
+    /*setLastState({
       state: containers, 
       player: currPlayer, opponent: opponent,
       qazan1: qazan1, qazan2: qazan2,
       tuzdyq1: tuzdyq1, tuzdyq2: tuzdyq2
     });
-
+*/
     setGame((prev) => {
         return { ...prev, 
           lastState: {
@@ -652,7 +651,7 @@ function Board(props) {
     )
     
     if (id === 9) {
-      setContainers((prevContainer) =>{
+      /*setContainers((prevContainer) =>{
         const newcontainer = prevContainer.map((el) => {
           if (el.id === 1 && el.playerId !== playerId) {
             return { ...el, count: el.count + 1 }
@@ -663,7 +662,7 @@ function Board(props) {
         checkTuzdyq(newcontainer)
         return newcontainer
       }
-    )
+    )*/
 
     setGame((prev) => {
         const newcontainer = prev.containers.map((el) => {
@@ -679,7 +678,7 @@ function Board(props) {
       }
     )
     } else {
-      setContainers((prevContainer) => {
+      /*setContainers((prevContainer) => {
         const newcontainer = prevContainer.map((el) => {
           if (el.id === id + 1 && el.playerId === playerId) {
             return { ...el, count: el.count + 1 }
@@ -691,7 +690,7 @@ function Board(props) {
         return newcontainer
       }
       )
-
+*/
       setGame((prev) => {
           const newcontainer = prev.containers.map((el) => {
             if (el.id === id + 1 && el.playerId === playerId) {
@@ -714,12 +713,12 @@ function Board(props) {
     //const lastPlayerId = (Math.floor((count + (id-1))/9)%2+player)%2 //ball landing playerid
     const rounds = Math.ceil((count + (id - 1)) / 9) //how many board sides balls travel
     console.log('rounds: ' + rounds)
-    setLastState({
+    /*setLastState({
       state: containers, 
       player: currPlayer, opponent: opponent,
       qazan1: qazan1, qazan2: qazan2,
       tuzdyq1: tuzdyq1, tuzdyq2: tuzdyq2
-    });
+    });*/
 
     setGame((prev) => {
       const newcontainer = prev.containers.map((el) => {
@@ -778,7 +777,7 @@ function Board(props) {
       }
     )
 
-    setContainers((prevContainer) =>{
+   /* setContainers((prevContainer) =>{
       
       const newcontainer = prevContainer.map((el) => {
         if (el.id === id && el.playerId === playerId && el.id <= lastId) {
@@ -828,13 +827,15 @@ function Board(props) {
       checkTuzdyq(newcontainer)
       return newcontainer
     }
-    )
+    )*/
   
   }
 
-  const undo = () => {
+  const undo = async () => {
+
+    await setGame(remoteData);
     // while the other player haven't made move yet
-    if (remoteData.currPlayer !== remoteData.lastState.player && (!remoteData.winner)) {
+    if (game.currPlayer !== game.lastState.player && (!game.winner)) {
       setGame((prev) => {
           return { ...prev, 
             containers: prev.lastState.state,
@@ -847,14 +848,16 @@ function Board(props) {
           }
         }
       )
-      setContainers(remoteData.lastState.state);
-      setQazan1(remoteData.lastState.qazan1);
-      setQazan2(remoteData.lastState.qazan2); 
-      setTuzdyq1(remoteData.lastState.tuzdyq1); 
-      setTuzdyq2(remoteData.lastState.tuzdyq2); 
-      setCurrPlayer(remoteData.lastState.player); 
-      setOpponent(remoteData.lastState.opponent); 
-      console.log("Player ", remoteData.currPlayer, "undoed: ", remoteData.lastState);
+      /*setContainers(game.lastState.state);
+      setQazan1(game.lastState.qazan1);
+      setQazan2(game.lastState.qazan2); 
+      setTuzdyq1(game.lastState.tuzdyq1); 
+      setTuzdyq2(game.lastState.tuzdyq2); 
+      setCurrPlayer(game.lastState.player); 
+      setOpponent(game.lastState.opponent); */
+      console.log("Player ", game.currPlayer, "undoed: ", game.lastState);
+   
+      update(game);
     }
     else {
       console.log("Can't undo, chance expired");
@@ -863,27 +866,31 @@ function Board(props) {
 
 
   const checkTuzdyq = (list) => {
-    if (remoteData.tuzdyq1 !== 0) { // player has tuzdyq
-      const tcount1 = getCount(remoteData.tuzdyq1, 0, list);
-      console.log("There's ", tcount1, "balls in t", remoteData.tuzdyq1, "of 0");
-      moveToQazan(0, tcount1, remoteData.tuzdyq1) // from 0th player
+    if (game.tuzdyq1 !== 0) { // player has tuzdyq
+      const tcount1 = getCount(game.tuzdyq1, 0, list);
+      console.log("There's ", tcount1, "balls in t", game.tuzdyq1, "of 0");
+      moveToQazan(0, tcount1, game.tuzdyq1) // from 0th player
     }
     else {
       console.log("No tuzdyq for Player 0")
     }
-    if (remoteData.tuzdyq2 !== 0) {
-      const tcount2 = getCount(remoteData.tuzdyq2, 1, list);
-      console.log("There's ", tcount2, "balls in t", remoteData.tuzdyq2, "of 1");
-      moveToQazan(1, tcount2, remoteData.tuzdyq2) // from 1st player
+    if (game.tuzdyq2 !== 0) {
+      const tcount2 = getCount(game.tuzdyq2, 1, list);
+      console.log("There's ", tcount2, "balls in t", game.tuzdyq2, "of 1");
+      moveToQazan(1, tcount2, game.tuzdyq2) // from 1st player
     }
     else {
       console.log("No tuzdyq for Player 1")
     }
   }
 
-  const makeMove = (playerId, id, count) => {
+  const makeMove = async (playerId, id, count) => {
+    const thisPlayer = remoteData?.PLAYER_ONE === state.username ? 0 : 1
+    console.log("thisPlayer, ", thisPlayer);
     
-    if (remoteData.currPlayer !== state.username) {
+    //if (game.currPlayer !== thisPlayer) {
+      
+    if (remoteData.currPlayer !== playerId) {// || remoteData.currPlayer !== thisPlayer) {
       console.log('It is not your turn');
       return;
     }
@@ -892,9 +899,11 @@ function Board(props) {
       return;
     }
 
+    await setGame(remoteData);
+    
     // player can't move on other's side
     if (!remoteData.winner) {
-      if (playerId === remoteData.currPlayer) {
+      if (playerId === remoteData.currPlayer ) {// && thisPlayer=== remoteData.currPlayer) {
         // if player can't make move cos of count
         /* if (counts[playerId] === 0){
           atsyrau(playerId)
@@ -911,7 +920,7 @@ function Board(props) {
 
           switchPlayer()
 
-          
+          update(game);
         }
         // count > 1
         else {
@@ -937,6 +946,7 @@ function Board(props) {
           // check for parity and win state
           //isEven(playerId, id, count)
           switchPlayer()
+          update(game);
 
           
         }
@@ -1016,7 +1026,7 @@ function Board(props) {
             console.log("Invalid move, Opponent is playing now");
         }
     }*/
-  console.log("containers", game.containers)
+  //console.log("containers", game.containers)
   const list = [
     {
         id: "1",
@@ -1129,3 +1139,6 @@ export default Board;
         </Form.Select>
 
         */
+
+
+        
