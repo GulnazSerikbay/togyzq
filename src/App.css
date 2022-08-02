@@ -105,3 +105,49 @@
 .joinChatContainer button:hover {
   background: rgb(220, 165, 0);
 }
+
+.modalmain {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  margin: 5%;
+  overflow: scroll;
+  
+}
+
+.themediv {
+  text-align: center;
+  margin: 2%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.themeboard {
+  text-align: center;
+  display: flex;
+  font-weight: bold;
+  justify-content: center;
+  border-radius: 10%;
+  height: 80%;
+  width: 90%;
+}
+
+.themecontainer {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 10%;
+  height: 80%;
+  width: 20%;
+  margin: 5%;
+}
+
+.themeball {
+  justify-content: center;
+  border-radius: 50%;
+  height: 1.6rem;
+  width: 1.6rem;
+  margin: 5%;
+}

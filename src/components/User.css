@@ -7,7 +7,7 @@
     display: flex;
     justify-content: start;
     align-items: center;
-    background-color: #9a8572;
+    background-color: var(--boardcolor);
     font-size: 13px;
     font-family: 'Orbitron', sans-serif;
 }

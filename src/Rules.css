@@ -5,7 +5,7 @@
 
 
 body {
-    background-color: #373041;
+    background-color: var(--background);
     padding: 0px;
     margin: 0px;
     display: flex ;
@@ -36,7 +36,8 @@ body {
     margin: 20px 0px;
     height: 80px;
     width: 100%;
-    background-color: rgba(88, 103, 221, 0.554);
+    background-color: var(--navbar);
+    color: var(--navbartext);
     display: flex;
     flex-direction: row;
     justify-content: space-between;

@@ -1,13 +1,13 @@
 .container {
-    background-color: #ffdab9;
+    background-color: var(--containercolor);
     position: absolute;
-    color: black !important;
+    color: var(--textcolor) !important;
     text-transform: uppercase;
     margin: 10px 5px;
     padding: 5px;
-    border: 2px solid #cca481;
+    border: 2px solid var(--containerborder);
     border-radius: 5px;
-    box-shadow: 0 3px #9a8572, 0 3px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 3px var(--containerborder), 0 3px rgba(0, 0, 0, 0.4);
     font-size: 100% !important;
     width: 100%;
     height: 90%;
@@ -17,15 +17,15 @@
 }
 
 .qazan {
-    background-color: #ffdab9;
-    color: black;
+    background-color: var(--containercolor);
+    color: var(--textcolor);
     font-family: 'Montserrat', sans-serif;
     text-transform: uppercase;
     margin: 5px;
     padding: 0.5%;
-    border: 2px solid #cca481;
+    border: 2px solid var(--containerborder);
     border-radius: 5px;
-    box-shadow: 0 3px #9a8572, 0 3px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 3px var(--containerborder), 0 3px rgba(0, 0, 0, 0.4);
     font-size: 60px;
     width: 95%;
     height: 13%;
@@ -45,7 +45,7 @@
     justify-content: center;
     grid-template-rows: 90%;
     grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10%;
-    background-color: #9a8572;
+    background-color: var(--boardcolor);
 }
 
 
@@ -70,5 +70,5 @@
     text-overflow: ellipsis; 
     white-space: pre-wrap;
     background-color: aliceblue;
-    z-index: 101;
+    z-index: 3;
 }

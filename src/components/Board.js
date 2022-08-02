@@ -12,7 +12,7 @@ import Form from 'react-bootstrap/Form';
 
 
 import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+//import { useParams } from 'react-router-dom';
 
 
 import { GameBoard } from '../lib/game';
@@ -49,39 +49,6 @@ function Board(props) {
   }, [props.id]);
 
 
-  //not sure if i need it
-  /*
-  useEffect(() => {
-    if (remoteData?.winner) {
-      if (remoteData.winner === state.username)
-      //  setWins({ ...wins, me: wins.me + 1 });
-      //else setWins({ ...wins, other: wins.other + 1 });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [remoteData?.winner, state.username]);
-*/
-/*
-  useEffect(() => {
-    if (remoteData?.winner)
-      setTimeout(
-        () =>
-          alert(
-            `${
-              remoteData.winner === state.username
-                ? 'You are doing good. Keep up the game, champ!'
-                : remoteData.winner === 'Tie' ? 'You lost. Try better next time!'
-            }`
-          ),
-        1000
-      );
-
-    if (remoteData?.draw) {
-      setTimeout(() => {
-        alert('It is a draw! You gave opponent a tough time!');
-      }, 1000);
-    }
-  }, [remoteData?.winner, state.username]);
-*/
 
 
 
@@ -108,14 +75,11 @@ function Board(props) {
     setVisibility(e);
   };*/
 
-
-
   const [qazan1, setQazan1] = useState(0)
   const [qazan2, setQazan2] = useState(0)
 
   const [tuzdyq1, setTuzdyq1] = useState(0)
-  const [tuzdyq2, setTuzdyq2] = useState(0)
-
+  const [tuzdyq2, setTuzdyq2] = useState(4)
 
   const [currPlayer, setCurrPlayer] = useState(1) // change to string probs
   const [opponent, setOpponent] = useState(0) // change to string probs
@@ -173,7 +137,7 @@ function Board(props) {
     { playerId: 1, id: 9, text: 'I', count: 1 },
   ]
 
-  const [containers, setContainers] = useState(initBoard)
+ // const [containers, setContainers] = useState(initBoard)
   
 
 
@@ -237,7 +201,7 @@ function Board(props) {
     //setCounts(newcount)
     setGame((prev) => {
         return { ...prev, 
-          counts: prev.containers.reduce(
+          counts: prev?.containers.reduce(
             ([c1,c2], {count, playerId}) => [playerId===0? c1+count:c1, playerId===1? c2+count:c2],
             [0,0]
           )
@@ -282,7 +246,7 @@ function Board(props) {
       console.log("Game finished");
       alert("Game finished!");
     }
-    console.log("counts", game.counts)
+    console.log("counts", remoteData?.counts)
     console.log("newcounts", newcount)
 
     console.assert(newcount[0]+newcount[1]+game.qazan1+game.qazan2 === 162, newcount[0]+newcount[1]+game.qazan1+game.qazan2);
@@ -308,7 +272,7 @@ function Board(props) {
   })
   )
     
-   update(game);
+   //update(game);
 
   }, [game.containers, props.id])
 
@@ -462,7 +426,7 @@ function Board(props) {
         }
 
     const showHint = (playerId, id, count) => {
-      
+      console.log("freeze ", props.freeze)
       if (count > 0 && playerId === currPlayer) {
         if (count === 1) {
           const lastId = id === 9 ? 1 : id+1
@@ -575,18 +539,8 @@ function Board(props) {
 
     const moveToQazan = (playerId, count, id) =>{
 
-        // take all balls from otau
-        /*setContainers((prevContainer) => {
-          const newcontainer = prevContainer.map((el) => {
-            if (el.id === id && el.playerId === playerId) {
-                console.log("Taking", count, "balls from id:", id, "Player", playerId)
-                return { ...el, count: 0 } 
-            } else return el
-          })
-          return newcontainer
-        })*/
-
         setGame((prev) => {
+          // take all balls from otau
           const newcontainer = prev.containers.map((el) => {
               if (el.id === id && el.playerId === playerId) {
                   console.log("Taking", count, "balls from id:", id, "Player", playerId)
@@ -600,10 +554,7 @@ function Board(props) {
         )
 
         if (playerId  === 0) {
-            /*setQazan2((prevcount) => {
-              console.log("qazan2 lol: ", prevcount+count)
-              return prevcount+count
-            });*/
+
             setGame((prev) => {
                 return { ...prev, 
                   qazan2: prev.qazan2+count
@@ -613,11 +564,7 @@ function Board(props) {
             
         }
         if (playerId  === 1) {
-            /*setQazan1((prevcount) => {
-              console.log("qazan1 lol: ", prevcount+count)
-              return prevcount+count
-            } 
-            );*/
+
             setGame((prev) => {
                 return { ...prev, 
                   qazan1: prev.qazan1+count
@@ -625,19 +572,12 @@ function Board(props) {
               }
             )
             
-            //console.log("qazan2: " + qazan2)
         }
     } 
 
   /* Helper: edge case, when only 1 qumalak in a container */
   const onlyOne = (playerId, id) => {
-    /*setLastState({
-      state: containers, 
-      player: currPlayer, opponent: opponent,
-      qazan1: qazan1, qazan2: qazan2,
-      tuzdyq1: tuzdyq1, tuzdyq2: tuzdyq2
-    });
-*/
+
     setGame((prev) => {
         return { ...prev, 
           lastState: {
@@ -651,18 +591,6 @@ function Board(props) {
     )
     
     if (id === 9) {
-      /*setContainers((prevContainer) =>{
-        const newcontainer = prevContainer.map((el) => {
-          if (el.id === 1 && el.playerId !== playerId) {
-            return { ...el, count: el.count + 1 }
-          } else if (el.id === 9 && el.playerId === playerId){
-            return { ...el, count: 0 }
-          } else return el
-        })
-        checkTuzdyq(newcontainer)
-        return newcontainer
-      }
-    )*/
 
     setGame((prev) => {
         const newcontainer = prev.containers.map((el) => {
@@ -678,19 +606,7 @@ function Board(props) {
       }
     )
     } else {
-      /*setContainers((prevContainer) => {
-        const newcontainer = prevContainer.map((el) => {
-          if (el.id === id + 1 && el.playerId === playerId) {
-            return { ...el, count: el.count + 1 }
-          } else if (el.id === id && el.playerId === playerId) {
-            return { ...el, count: 0 }
-          } else return el
-        })
-        checkTuzdyq(newcontainer)
-        return newcontainer
-      }
-      )
-*/
+
       setGame((prev) => {
           const newcontainer = prev.containers.map((el) => {
             if (el.id === id + 1 && el.playerId === playerId) {
@@ -713,12 +629,6 @@ function Board(props) {
     //const lastPlayerId = (Math.floor((count + (id-1))/9)%2+player)%2 //ball landing playerid
     const rounds = Math.ceil((count + (id - 1)) / 9) //how many board sides balls travel
     console.log('rounds: ' + rounds)
-    /*setLastState({
-      state: containers, 
-      player: currPlayer, opponent: opponent,
-      qazan1: qazan1, qazan2: qazan2,
-      tuzdyq1: tuzdyq1, tuzdyq2: tuzdyq2
-    });*/
 
     setGame((prev) => {
       const newcontainer = prev.containers.map((el) => {
@@ -777,63 +687,12 @@ function Board(props) {
       }
     )
 
-   /* setContainers((prevContainer) =>{
-      
-      const newcontainer = prevContainer.map((el) => {
-        if (el.id === id && el.playerId === playerId && el.id <= lastId) {
-          console.log("adding ", Math.ceil(rounds/2))
-          return { ...el, count: Math.ceil(rounds/2) } //incorrect
-        }
-        if (el.id === id && el.playerId === playerId && el.id > lastId) {
-          return { ...el, count: Math.floor(rounds/2) } //incorrect
-        }
-        if (rounds % 2 === 0) {
-          //lands on the other side
-          if (el.playerId === playerId && el.id >= id) {
-            return { ...el, count: el.count + Math.ceil(rounds / 2) }
-          }
-          if (el.playerId === playerId && el.id < id) {
-            return { ...el, count: el.count + rounds / 2 - 1 }
-          }
-          if (el.playerId !== playerId && el.id <= lastId) {
-            return { ...el, count: el.count + rounds / 2 }
-          }
-          if (el.playerId !== playerId && el.id > lastId) {
-            return { ...el, count: el.count + rounds / 2 - 1 }
-          }
-          else {
-            return el
-          }
-        } else {
-          //lands on this player's side
-          if (el.playerId === playerId && el.id >= id && el.id <= lastId) {
-            return { ...el, count: el.count + Math.ceil(rounds / 2) }
-          }
-          if (el.playerId === playerId && (el.id < id && el.id <= lastId)) {
-            return { ...el, count: el.count + Math.floor(rounds / 2) }
-          }
-          if (el.playerId === playerId && (el.id >= id && el.id > lastId)) {
-            return { ...el, count: el.count + Math.floor(rounds / 2) }
-          }
-          if (el.playerId !== playerId) {
-            return { ...el, count: el.count + Math.floor(rounds / 2) }
-          }
-          else {
-            return el
-          }
-        }
-      })
-      console.log("newcontainer: ", newcontainer)
-      checkTuzdyq(newcontainer)
-      return newcontainer
-    }
-    )*/
   
   }
 
   const undo = async () => {
 
-    await setGame(remoteData);
+    //await setGame(remoteData);
     // while the other player haven't made move yet
     if (game.currPlayer !== game.lastState.player && (!game.winner)) {
       setGame((prev) => {
@@ -848,13 +707,7 @@ function Board(props) {
           }
         }
       )
-      /*setContainers(game.lastState.state);
-      setQazan1(game.lastState.qazan1);
-      setQazan2(game.lastState.qazan2); 
-      setTuzdyq1(game.lastState.tuzdyq1); 
-      setTuzdyq2(game.lastState.tuzdyq2); 
-      setCurrPlayer(game.lastState.player); 
-      setOpponent(game.lastState.opponent); */
+
       console.log("Player ", game.currPlayer, "undoed: ", game.lastState);
    
       update(game);
@@ -886,11 +739,11 @@ function Board(props) {
 
   const makeMove = async (playerId, id, count) => {
     const thisPlayer = remoteData?.PLAYER_ONE === state.username ? 0 : 1
-    console.log("thisPlayer, ", thisPlayer);
+    console.log("state, ", thisPlayer, state.usernames);
     
     //if (game.currPlayer !== thisPlayer) {
-      
-    if (remoteData.currPlayer !== playerId) {// || remoteData.currPlayer !== thisPlayer) {
+    if (!props.freeze) {
+    if (remoteData.currPlayer !== playerId || remoteData.currPlayer !== thisPlayer) {
       console.log('It is not your turn');
       return;
     }
@@ -899,11 +752,10 @@ function Board(props) {
       return;
     }
 
-    await setGame(remoteData);
     
     // player can't move on other's side
     if (!remoteData.winner) {
-      if (playerId === remoteData.currPlayer ) {// && thisPlayer=== remoteData.currPlayer) {
+      if (playerId === remoteData.currPlayer && thisPlayer=== remoteData.currPlayer) {
         // if player can't make move cos of count
         /* if (counts[playerId] === 0){
           atsyrau(playerId)
@@ -930,21 +782,7 @@ function Board(props) {
           // check for parity and win state
           isEven(playerId, id, count)
           //checkTuzdyq();
-          /* if (tuzdyq1 !== 0) {
-            const tcount1 = getCount(tuzdyq1, 0);
-            console.log("There's ", tcount1, "balls in t", tuzdyq1, "of 1");
 
-            moveToQazan(0, tcount1+1, tuzdyq1) // from 0th player
-          }
-          
-          if (tuzdyq2 !== 0) {
-            const tcount2 = getCount(tuzdyq2, 1);
-            console.log("There's ", tcount2, "balls in t", tuzdyq2, "of 1");
-
-            moveToQazan(1, tcount2+1, tuzdyq2) // from 1st player
-          } */
-          // check for parity and win state
-          //isEven(playerId, id, count)
           switchPlayer()
           update(game);
 
@@ -958,8 +796,106 @@ function Board(props) {
       console.log("Game finished, can't make move!");
     }
   }
+  }
 
-  /*
+
+  const list = [
+    {
+        id: "1",
+        name: "classic"
+    },
+    {
+        id: "2",
+        name: "dark"
+    },
+    {
+        id: "3",
+        name: "soft"
+    },
+    {
+        id: "4",
+        name: "indie"
+    },
+    {
+      id: "5",
+      name: "brown"
+    },
+    {
+      id: "6",
+      name: "bw"
+    },
+    {
+      id: "7",
+      name: "lol"
+    },
+    {
+      id: "8",
+      name: "lol"
+    },
+
+]
+
+
+  return (
+    <>
+      <div className="board">
+
+        <div className="board-side">
+          {game.containers.map((item) => {
+            if (item.playerId === 0) {
+              return (
+                <Otau
+                  onMouseEnter = {() => (!props.freeze) ?  showHint(item.playerId, item.id, item.count) : console.log("frozen")}
+                  onMouseLeave = {() => (!props.freeze) ? hideHint(item.playerId, item.id, item.count) : null}
+                  hoverHint = {item.hover}
+                  id={item.id}
+                  color = {game.tuzdyq1 === item.id ? 'var(--tuzdyqcolor)' : 'var(--containercolor)'}
+                  text = {item.text}
+                  count = {item.count}
+                  onClick={() => makeMove(item.playerId, item.id, item.count)}
+                />
+              )
+            } else return <></>
+          })}
+        </div>
+        <Qazan playerId={1} count={game.qazan2} />
+        <Qazan playerId={0} count={game.qazan1} />
+
+        <div className="board-side">
+          {game.containers.map((item) =>
+            item.playerId === 1 ? (
+              <Otau
+                onMouseEnter = {() => showHint(item.playerId, item.id, item.count)}
+                onMouseLeave = {() => hideHint(item.playerId, item.id, item.count)}              hoverHint = {item.hover}
+                id = {item.id}
+                color = {game.tuzdyq2 === item.id ? 'var(--tuzdyqcolor)' : 'var(--containercolor)'}
+                text = {item.text}
+                count = {item.count}
+                onClick={() => makeMove(item.playerId, item.id, item.count)}
+              />
+            ) : (
+              <></>
+            ),
+          )}
+          
+        </div>
+
+      </div>
+      {visibility ? <PopUp toggle={togglePop} /> : null}
+     
+      
+ 
+   
+    </>
+  )
+}
+export default Board;
+
+
+
+        
+
+          /*
     const makeMove =(playerId, id) => {
         // console.log(playerId, currPlayer)
         let newContainers = [...containers];
@@ -1027,118 +963,3 @@ function Board(props) {
         }
     }*/
   //console.log("containers", game.containers)
-  const list = [
-    {
-        id: "1",
-        name: "classic"
-    },
-    {
-        id: "2",
-        name: "dark"
-    },
-    {
-        id: "3",
-        name: "soft"
-    },
-    {
-        id: "4",
-        name: "indie"
-    },
-    {
-      id: "5",
-      name: "brown"
-    },
-    {
-      id: "6",
-      name: "bw"
-    },
-    {
-      id: "7",
-      name: "lol"
-    },
-    {
-      id: "8",
-      name: "lol"
-    },
-
-]
-
-
-  return (
-    <>
-      <div className="board">
-
-        <div className="board-side">
-          {game.containers.map((item) => {
-            if (item.playerId === 0) {
-              return (
-                <Otau
-                  onMouseEnter = {() => showHint(item.playerId, item.id, item.count)}
-                  onMouseLeave = {() => hideHint(item.playerId, item.id, item.count)}
-                  hoverHint = {item.hover}
-                  id={item.id}
-                  color = {game.tuzdyq1 === item.id ? 'aliceblue' : bgColor}
-                  text = {item.text}
-                  count = {item.count}
-                  onClick={() => makeMove(item.playerId, item.id, item.count)}
-                />
-              )
-            } else return <></>
-          })}
-        </div>
-        <Qazan playerId={1} count={game.qazan2} />
-        <Qazan playerId={0} count={game.qazan1} />
-
-        <div className="board-side">
-          {game.containers.map((item) =>
-            item.playerId === 1 ? (
-              <Otau
-                onMouseEnter = {() => showHint(item.playerId, item.id, item.count)}
-                onMouseLeave = {() => hideHint(item.playerId, item.id, item.count)}              hoverHint = {item.hover}
-                id = {item.id}
-                color = {game.tuzdyq2 === item.id ? 'white' : bgColor}
-                text = {item.text}
-                count = {item.count}
-                onClick={() => makeMove(item.playerId, item.id, item.count)}
-              />
-            ) : (
-              <></>
-            ),
-          )}
-          
-        </div>
-
-      </div>
-      {visibility ? <PopUp toggle={togglePop} /> : null}
-     
-      
- 
-   
-    </>
-  )
-}
-export default Board;
-// <button onClick={togglePop}>Toggl
-
-
-
-/* 
-      const options  = list.map((item) => item.name)
-      const [selected, setSelected] = useState(-1); 
-
-      const handleSelect = (e) => {
-        setSelected(e.target.value)
-        console.log("val:", e.target.value)
-      } 
-        <Form.Select className = " col" id = "dropdown-basic" aria-label="Default select example"
-            onChange={handleSelect}>
-            <option>Open this select menu</option>
-            {options.map((option, id) =>
-              <option value = {id+1}>{option}</option>
-            )}
-        </Form.Select>
-
-        */
-
-
-        

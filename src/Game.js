@@ -3,10 +3,15 @@ import Board from './components/Board.js';
 import User from './components/User.js';
 import Chat from './components/Chat.js';
 import { Link } from "react-router-dom";
+import useLocalStorage from 'use-local-storage';
 import ornament from './assets/images/ornament.png';
 
+//modal
+import Modal from "./components/Modal";
+import styles from "./components/Modal/nested.css";
+
 // adding multip
-import { useEffect, useContext, useState, useRef } from 'react';
+import { useEffect, useContext, useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
@@ -17,7 +22,67 @@ import { database } from './.firebase';
 import { leaveRoom, sendData } from './functions';
 
 function Game(props) {
+    //const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const themes = ['light', 'dark', 'pinky', 'green']
+    const themeProps = {
+      light: {
+        background: '#373041',
+        textcolor: 'black',
+        navbar: 'rgba(88, 103, 221, 0.554)',
+        boardcolor: '#9a8572',
+        containercolor: '#ffdab9',
+        ballcolor: 'brown',
+        tuzdyqcolor: 'lightblue',
+        bordercolor: '#cca481'
+    },
     
+    dark: {
+      background: 'black',
+      textcolor: 'black',
+      navbar: 'rgb(211, 211, 211)',
+      boardcolor: 'grey',
+      containercolor: 'rgb(206, 206, 206)',
+      ballcolor: 'rgb(57, 57, 57)',
+      tuzdyqcolor: 'rgb(251, 251, 251)',
+      bordercolor: 'grey'
+    },
+    
+    green: {
+      background: '#abd1c6',
+      textcolor: 'white',
+      navbar: '#f9bc60',
+      boardcolor: '#004643',
+      containercolor: '#abd1c6',
+      ballcolor: '#e16162',
+      tuzdyqcolor: '#f9bc60' ,
+      bordercolor: '#6a817b'
+    },
+    
+    pinky: {
+      background: '#fef6e4',
+      textcolor: 'white',
+      navbar: '#f3d2c1',
+      boardcolor:  '#f582ae',
+      containercolor: '#f3d2c1',
+      ballcolor: '#8bd3dd',
+      tuzdyqcolor: '#fffffe', 
+      bordercolor: '#7c6c63'
+    }}
+
+    const [theme, setTheme] = useState( JSON.parse(window.localStorage.getItem('data-theme')));
+    
+    //useLocalStorage('theme', defaultDark ? 'dark' : 'light');
+
+    
+
+    const switchTheme = (newTheme) => {
+      console.log('theme', theme);
+
+      setTheme(newTheme);
+      document.documentElement.setAttribute("data-theme", newTheme)
+      window.localStorage.setItem('data-theme', JSON.stringify(newTheme));
+    }
+
     const { id } = useParams();
     const roomID = id;
     console.log("received params: ", id)
@@ -27,6 +92,17 @@ function Game(props) {
     const [wins, setWins] = useState({ me: 0, other: 0 });
 
     const history = useNavigate();
+
+        
+    /* Modal things */
+    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen2, setIsOpen2] = useState(false);
+  
+    const handleOpen = useCallback(() => setIsOpen(true), []);
+    const handleOpen2 = useCallback(() => setIsOpen2(true), []);
+  
+    const handleClose = useCallback(() => setIsOpen(false), []);
+    const handleClose2 = useCallback(() => setIsOpen2(false), []);
 
     /* console.log("database",database);
     database.ref(roomID).on('value', (snap) => {
@@ -45,7 +121,8 @@ function Game(props) {
         console.log("remoteData", snap.val());
       });
     }, [props.id]);
-/*
+
+    /*
     //not sure if i need it
     useEffect(() => {
       if (remoteData?.winner) {
@@ -173,9 +250,18 @@ function Game(props) {
       };
     }, [])
 
+    const designs = [
+      {
+        body: '#373041',
+        navbar: 'rgba(88, 103, 221, 0.554)',
+        board: '#9a8572', //chat too,
+        container: '#ffdab9', //qazan
+        balls: 'brown',
+        text: 'black'
+      },
+    ];
 
-
-
+  
     const childFunc = useRef(null)
 
 
@@ -238,7 +324,7 @@ function Game(props) {
               <div className="menu svelte-1v7r4ll">
               {remoteData && remoteData.PLAYER_ONE && remoteData.PLAYER_TWO ? null : (
             <>
-              <div className="item blue svelte-1v7r4ll">room ID is {roomID}</div> 
+              <div className="item  svelte-1v7r4ll">room ID is {roomID}</div> 
           
               <div className="item svelte-1v7r4ll" onClick={copyRoomID}>Copy Room ID
               </div> 
@@ -257,7 +343,7 @@ function Game(props) {
               
               <div className="item svelte-1v7r4ll" onClick={() => childFunc.current()} >UNDO</div>
               <div className="separator svelte-1v7r4ll"></div>
-              <div className="item svelte-1v7r4ll"  >Dark</div>
+              <div className="item svelte-1v7r4ll" onClick={handleOpen }>Theme</div> {/*onClick={switchTheme}*/}
 
               
             </div>
@@ -270,6 +356,7 @@ function Game(props) {
 
 
           <Board 
+              freeze = {isOpen}
               player1 = {remoteData?.PLAYER_ONE}
               player2 = {remoteData?.PLAYER_TWO}
               childFunc={childFunc}
@@ -280,11 +367,89 @@ function Game(props) {
           />
   
           <div className='rightside col'> 
-            <User id="0" name={remoteData?.PLAYER_ONE} you={state.username===remoteData?.PLAYER_ONE ? true : false} score={board.qazan1} playing = {board.currPlayer===0 ? true: false}/>
+            <User id="0" 
+                name={remoteData?.PLAYER_ONE} 
+                you={state.username===remoteData?.PLAYER_ONE ? true : false} 
+                score={board.qazan1} 
+                playing = {board.currPlayer===0 ? true: false}
+                undo = {state.username === remoteData?.PLAYER_ONE ? childFunc.current() : null}
+            />
             <Chat roomID={roomID} />
-            <User id="1" name={remoteData?.PLAYER_TWO ? remoteData?.PLAYER_TWO : 'Waiting...'} you={state.username===remoteData?.PLAYER_ONE ? false : true} score={board.qazan2} playing = {board.currPlayer===1 ? true: false}/>
-  
+            <User id="1" 
+                  name={remoteData?.PLAYER_TWO ? remoteData?.PLAYER_TWO : 'Waiting...'} 
+                  you={state.username===remoteData?.PLAYER_ONE ? false : true} 
+                  score={board.qazan2} 
+                  playing = {board.currPlayer===1 ? true: false}
+                  undo = {state.username === remoteData?.PLAYER_TWO ? childFunc.current() : null}
+            />
+            <Modal
+              className={styles.ModalOverlay}
+              open={isOpen}
+              onDismiss={handleClose}
+            >
+            <Modal.Content className={styles.ModalContent}>
+              <h2 style = {{justifySelf: 'center'}}>Change Theme</h2>
+              <div className = "modalmain">
+                {themes.map((theme) =>
+                  <div className = {`themediv ${theme}`}
+                    onClick = {() => switchTheme(theme)}
+                      style = {{ background: themeProps[theme].background, 
+                                  color: themeProps[theme].textcolor,
+                                  border: `${themeProps[theme].bordercolor} solid 2px`,
+                                  borderRadius:  '10px'}}
+                  >
+                    <div className = {`themeboard ${theme}`}
+                          style = {{ background: themeProps[theme].boardcolor, 
+                                          color: themeProps[theme].navbartext, 
+                                          alignItems: 'center'}}>
+                       {theme}
+                    
+                    <div className = {`themecontainer ${theme}`}
+                          style = {{ background: themeProps[theme].containercolor, 
+                          }}
+                    >
+                      <div className = {`themeball ${theme}`}
+                            style = {{ background: themeProps[theme].ballcolor, 
+                                  }}>
+                                    <p></p>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <button onClick={handleClose}>Close</button>
+             
+            </Modal.Content>
+          </Modal>
           </div>
         </div>);
 }
 export default Game;
+
+/*
+<Modal
+className={styles.ModalOverlay}
+open={isOpen}
+onDismiss={handleClose}
+>
+<Modal.Content className={styles.ModalContent}>
+<h2>Change Theme</h2>
+<button  onClick={handleOpen2}>
+ Restart
+</button>
+<button onClick={handleClose}>Close</button>
+<Modal
+  className={styles.ModalOverlay2}
+  open={isOpen2}
+  onDismiss={handleClose2}
+>
+  <Modal.Content className={styles.ModalContent2}>
+    <h3>I'm a fancy Nested Modal!</h3>
+    <button onClick={handleClose2}>Close</button>
+  </Modal.Content>
+</Modal>
+</Modal.Content>
+</Modal>
+
+*/

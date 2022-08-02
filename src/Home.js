@@ -9,7 +9,6 @@ import Utils from './utils';
 import Chat1 from './Chat1.js'
 
 
-
 import { useNavigate } from 'react-router-dom';
 import { createRoom, joinRoom } from './functions/index';
 import { GameBoard } from './lib/game';
@@ -222,7 +221,7 @@ function createGame() {
               />
               <button onClick={onCreateRoomClick}>Create room</button>
               <button onClick={onJoinRoomClick} lol='Oıynǵa kіrý'>Join room</button>
-
+         
             </div>
             </div>
            

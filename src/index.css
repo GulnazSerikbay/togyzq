@@ -1,3 +1,68 @@
+
+:root {
+  --background: #373041;
+  --textcolor: black;
+  --navbartext: white;
+  --navbar: rgba(88, 103, 221, 0.554);
+  --boardcolor: #9a8572;
+  --containercolor: #ffdab9;
+  --containerborder: #cca481;
+  --ballcolor: brown;
+  --tuzdyqcolor: lightblue;
+  --chatbutton: #634c37;
+  --chattext: black;
+  --modaltext: white;
+}
+
+html[data-theme='dark'] {
+  --background: black;
+  --textcolor: black;
+  --navbartext: black;
+  --navbar: rgb(211, 211, 211);
+  --boardcolor: grey;
+  --containercolor: rgb(206, 206, 206);
+  --containerborder: rgb(33, 33, 33);
+  --ballcolor: rgb(57, 57, 57);
+  --tuzdyqcolor: rgb(251, 251, 251) ;
+  --chatbutton: white;
+  --chattext: black;
+  --modaltext: white;
+}
+
+
+
+html[data-theme='green'] {
+  --background: #abd1c6;
+  --textcolor: black;
+  --navbartext: black;
+  --navbar: #f9bc60;
+  --boardcolor: #004643;
+  --containercolor: #abd1c6;
+  --containerborder: #6a817b;
+  --ballcolor: #e16162;
+  --tuzdyqcolor: #f9bc60 ;
+  --chatbutton: #001e1d;
+  --chattext: white;
+  --modaltext: white;
+
+}
+
+html[data-theme='pinky'] {
+  --background: #fef6e4;;
+  --textcolor: black;
+  --navbartext: black;
+  --navbar: #f3d2c1;
+  --boardcolor:  #f582ae;
+  --containercolor: #f3d2c1;
+  --containerborder: #7c6c63;
+  --ballcolor: #8bd3dd;
+  --tuzdyqcolor: #fffffe;
+  --chatbutton: #001858;
+  --chattext: white;
+  --modaltext: white;
+
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -23,3 +88,4 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+

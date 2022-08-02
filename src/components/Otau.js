@@ -43,7 +43,7 @@ function Otau(props) {
                     display: 'flex', 
                     alignItems: 'justify',
                     transform: (props.hoverHint === true) ? 'scale(1.1)' : '',
-                    border: (props.hoverHint === true) ? '3px solid yellow' : '3px solid #cca481'
+                    border: (props.hoverHint === true) ? '3px solid yellow' : '3px solid var(--containerborder)'
                 }}
                     onClick={props.onClick}    
                     onMouseEnter = {props.onMouseEnter}
@@ -71,11 +71,11 @@ function Qazan(props) {
         let list = []
         let list2 = []
         for (let i = 0; i < props.count && i < 60; i++) {
-            list.push(<Ball color="brown" id = {i}/>);
+            list.push(<Ball id = {i}/>);
         }
         console.log("list length: ", list.length);
         for (let i = 0; i < props.count-list.length; i++) {
-            list2.push(<Ball color="brown" id = {i} marg={true}/>);
+            list2.push(<Ball c id = {i} marg={true}/>);
         } 
         setQazan(list);
         setOverflown(list2);

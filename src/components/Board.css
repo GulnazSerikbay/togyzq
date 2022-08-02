@@ -11,7 +11,7 @@ body  {
 }
 
 .board {
-    background-color: #9a8572;
+    background-color: var(--boardcolor);
     width: 75%;
     margin: 0 0px 0 20px;
     height: 42vw;
@@ -19,7 +19,7 @@ body  {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    color: black !important;
+    color: var(--textcolor) !important;
 }
 
 
@@ -30,6 +30,7 @@ body  {
     -moz-border-radius: 50px;
     -webkit-border-radius: 50px;
     border-radius: 50px;
+    background-color: var(--ballcolor);
     border: 1px solid black;
 }
 

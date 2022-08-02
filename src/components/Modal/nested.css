@@ -1,0 +1,26 @@
+:root {
+    --modal-overlay-color: rgba(66, 66, 66, 0.2);
+  }
+  
+  .ModalOverlay {
+    background-color: var(--modal-overlay-color);
+  }
+  
+  .ModalContent {
+    background-color: white;
+    width: 500px;
+    max-height: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .ModalOverlay2 {
+    background-color: var(--modal-overlay-color);
+  }
+  
+  .ModalContent2 {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+  }
+  

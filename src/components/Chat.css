@@ -5,20 +5,22 @@
     max-width: 300px;
     display: flex;
     align-items: flex-end;
-    background-color: #9a8572;
+    background-color: var(--boardcolor);
 }
 
 .chatel {
     margin: 4px;
+    color: var(--chattext);
 }
 
 .chattext {
-    background-color: #ffdab9;
+    background-color: var(--containercolor);
     margin: 4px;
 }
 
 .sendbutton {
-    background-color: #634c37;
+    background-color: var(--chatbutton);
+    color: var(--chattext);
     border: none;
     margin: 4px;
     width: 25%;

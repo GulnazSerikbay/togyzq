@@ -80,7 +80,7 @@ body  {
 
 
 .banner a {
-    color: white;
+    color: var(--navbartext);
     text-decoration: none;
 }
 
