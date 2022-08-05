@@ -31,8 +31,6 @@ import { render } from '@testing-library/react';
 
 function Board(props) {
 
-
-  
   const { state } = useContext(GlobalContext);
   const [remoteData, setRemoteData] = useState(props.remoteData);
   //const [wins, setWins] = useState({ me: 0, other: 0 });
@@ -56,9 +54,7 @@ function Board(props) {
 
 
   //undo for use in parent element <Game/>
-  useEffect(() => {
-    props.childFunc.current = undo
-  })
+  
 
 
 
@@ -87,6 +83,7 @@ function Board(props) {
   const [winner, setWinner] = useState(1)
 
   const [counts, setCounts] = useState([81, 81])
+  
 
   const initBoard = [
     { playerId: 0, id: 9, text: 'I', count: 9, hover: false },
@@ -273,7 +270,7 @@ function Board(props) {
   })
   )
     
-   //update(game);
+   update(game);
 
   }, [game?.containers, props.roomId])
 
@@ -718,6 +715,7 @@ function Board(props) {
     }
   }
 
+  props.childFunc.current = undo
 
   const checkTuzdyq = (list) => {
     if (game.tuzdyq1 !== 0) { // player has tuzdyq
