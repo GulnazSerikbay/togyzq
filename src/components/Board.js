@@ -5,11 +5,13 @@ import PopUp from "./Popup";
 import './Board.css'
 import { Otau, Qazan } from './Otau.js'
 //import Game from "./Game.js"
-import { useEffect, useContext, useState  } from 'react'
+import { useEffect, useContext, useState, useCallback  } from 'react'
 import { useDebugValue } from 'react'
 import Form from 'react-bootstrap/Form';
 
-
+//modal
+import Modal from "./Modal";
+import styles from "./Modal/nested.css";
 
 import { useNavigate } from 'react-router-dom';
 //import { useParams } from 'react-router-dom';
@@ -26,27 +28,26 @@ import { render } from '@testing-library/react';
 
 
 
+
 function Board(props) {
 
+
+  
   const { state } = useContext(GlobalContext);
-  const [remoteData, setRemoteData] = useState(null);
+  const [remoteData, setRemoteData] = useState(props.remoteData);
   //const [wins, setWins] = useState({ me: 0, other: 0 });
   const [players, setPlayers] = useState([null, null]);
   const history = useNavigate();
   
   useEffect(() => {
-    console.log("id in gamejs", props.id)
-    
+    console.log("received id in gamejs", props.roomId)
     // get live data from remote server and update it in state
-    database.ref(props.id).on('value', (snap) => {
+    database.ref(props.roomId).on('value', (snap) => {
       setRemoteData(snap.val());
-      console.log("remoteData", snap.val());
       setGame(snap.val())
-      setPlayers([snap.val().PLAYER_ONE, snap.val().PLAYER_TWO]);
-      console.log(players);
+      console.log("received remoteData", snap.val());
     });
-
-  }, [props.id]);
+  }, [props.roomId]);
 
 
 
@@ -79,11 +80,11 @@ function Board(props) {
   const [qazan2, setQazan2] = useState(0)
 
   const [tuzdyq1, setTuzdyq1] = useState(0)
-  const [tuzdyq2, setTuzdyq2] = useState(4)
+  const [tuzdyq2, setTuzdyq2] = useState(0)
 
   const [currPlayer, setCurrPlayer] = useState(1) // change to string probs
   const [opponent, setOpponent] = useState(0) // change to string probs
-  const [winner, setWinner] = useState(null)
+  const [winner, setWinner] = useState(1)
 
   const [counts, setCounts] = useState([81, 81])
 
@@ -217,8 +218,8 @@ function Board(props) {
     const data =  JSON.parse(JSON.stringify(sending ));
 
     try {
-      console.log("data being sent", game);
-      await updateData(props.id, data);
+      console.log("data being sent", sending);
+      await updateData(props.roomId, data);
     } catch (error) {
       console.log(error);
     }
@@ -244,7 +245,7 @@ function Board(props) {
     if (hasFinished()) {
       console.log("winner", game?.winner);
       console.log("Game finished");
-      alert("Game finished!");
+      //alert("Game finished!");
     }
     console.log("counts", remoteData?.counts)
     console.log("newcounts", newcount)
@@ -274,12 +275,12 @@ function Board(props) {
     
    //update(game);
 
-  }, [game.containers, props.id])
+  }, [game?.containers, props.roomId])
 
   const winMessage = () => {
     console.log("winner",game.winner)
     if (game.winner) {
-      alert("Game finished!")
+      //alert("Game finished!")
       console.log(`winner is ${game.winner}`)
     }
   }
@@ -738,17 +739,19 @@ function Board(props) {
   }
 
   const makeMove = async (playerId, id, count) => {
+    
     const thisPlayer = remoteData?.PLAYER_ONE === state.username ? 0 : 1
-    console.log("state, ", thisPlayer, state.usernames);
+    console.log("state, ", thisPlayer, state.username, remoteData );
     
     //if (game.currPlayer !== thisPlayer) {
     if (!props.freeze) {
     if (remoteData.currPlayer !== playerId || remoteData.currPlayer !== thisPlayer) {
+      console.log('currPlayer', remoteData.currPlayer, "and", thisPlayer);
       console.log('It is not your turn');
       return;
     }
     if (remoteData.winner) {
-      console.log('Game finished');
+      //console.log('Game finished');
       return;
     }
 
@@ -798,42 +801,31 @@ function Board(props) {
   }
   }
 
+   /* Modal things */
+   const [isOpenWin, setIsOpenWin] = useState(false);
+ 
+   const handleOpenWin = useCallback(() => setIsOpenWin(true), []);
+ 
+   const handleCloseWin = useCallback(() => setIsOpenWin(false), []);
 
-  const list = [
-    {
-        id: "1",
-        name: "classic"
-    },
-    {
-        id: "2",
-        name: "dark"
-    },
-    {
-        id: "3",
-        name: "soft"
-    },
-    {
-        id: "4",
-        name: "indie"
-    },
-    {
-      id: "5",
-      name: "brown"
-    },
-    {
-      id: "6",
-      name: "bw"
-    },
-    {
-      id: "7",
-      name: "lol"
-    },
-    {
-      id: "8",
-      name: "lol"
-    },
+  const ModalWin = () => {
+    return (
+          <Modal
+              className={styles.ModalOverlay}
+              open={isOpenWin}
+          >
+            <Modal.Content className={styles.ModalContent}>
+              <h2 style = {{justifySelf: 'center'}}>Game finished</h2>
+              <p>Winner is {game.winner}</p>
+              <button >Restart</button>
+              <button onClick={handleCloseWin}>Close</button>
+            
+            </Modal.Content>
+        </Modal>
+    );
+  }
 
-]
+
 
 
   return (

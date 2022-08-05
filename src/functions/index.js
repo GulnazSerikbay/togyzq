@@ -1,5 +1,6 @@
 import { database, firestore } from '../.firebase';
 import firebase from 'firebase/compat/app';
+import { getDatabase, ref, child, push, update } from "firebase/database";
 
 const createRoom = (obj) => {
   const id = new Date().getTime();

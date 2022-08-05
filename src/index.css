@@ -48,7 +48,7 @@ html[data-theme='green'] {
 }
 
 html[data-theme='pinky'] {
-  --background: #fef6e4;;
+  --background: #fef6e4;
   --textcolor: black;
   --navbartext: black;
   --navbar: #f3d2c1;
@@ -59,7 +59,7 @@ html[data-theme='pinky'] {
   --tuzdyqcolor: #fffffe;
   --chatbutton: #001858;
   --chattext: white;
-  --modaltext: white;
+  --modaltext: black;
 
 }
 

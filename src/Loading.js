@@ -3,16 +3,17 @@ import './Loading.css';
 import { useState } from 'react';
 
 
-function Loading() {
+function Loading({visible}) {
   return (
     <>
-		<div class="canvas-container"></div>
-		<div class="ui-container">
-			<div class="right"></div>
+		<div className="canvas-container" style={{ display: visible ? 'flex' : 'none' }}>
+		<div className="ui-container">
+			<div className="right"></div>
 		</div>
-		<div class="loader-container">
-			<div class="loader"></div>
-			<div class="loader-text"></div>
+		<div className="loader-container">
+			<div className="loader"></div>
+			<div className="loader-text"></div>
+		</div>
 		</div>
   </>
   );

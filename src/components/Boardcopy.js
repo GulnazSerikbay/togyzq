@@ -17,8 +17,8 @@ function Board(props) {
   const bgColor = '#ffdab9'
   const [visibility, setVisibility] = useState(false);
 
-  const ocount = 9;
-  const qcount = 9;
+  const ocount = 5;
+  const qcount = 3;
 
   const togglePop = () => {
     console.log(visibility)

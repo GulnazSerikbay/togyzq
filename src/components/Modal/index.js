@@ -48,7 +48,7 @@ const Modal = ({ open, onDismiss, children, className, ...props }) => {
 };
 
 // Grouping components into "Modal" namespace
-//Modal.Host = ModalHost;
+Modal.Host = ModalHost;
 Modal.Content = ModalContent;
 
 export default Modal;

@@ -60,7 +60,7 @@ function Game(props) {
     
     pinky: {
       background: '#fef6e4',
-      textcolor: 'white',
+      textcolor: 'whitex',
       navbar: '#f3d2c1',
       boardcolor:  '#f582ae',
       containercolor: '#f3d2c1',
@@ -93,7 +93,7 @@ function Game(props) {
 
     const history = useNavigate();
 
-        
+    
     /* Modal things */
     const [isOpen, setIsOpen] = useState(false);
     const [isOpen2, setIsOpen2] = useState(false);
@@ -250,16 +250,7 @@ function Game(props) {
       };
     }, [])
 
-    const designs = [
-      {
-        body: '#373041',
-        navbar: 'rgba(88, 103, 221, 0.554)',
-        board: '#9a8572', //chat too,
-        container: '#ffdab9', //qazan
-        balls: 'brown',
-        text: 'black'
-      },
-    ];
+  
 
   
     const childFunc = useRef(null)
@@ -356,11 +347,12 @@ function Game(props) {
 
 
           <Board 
+              remoteData = {remoteData}
               freeze = {isOpen}
               player1 = {remoteData?.PLAYER_ONE}
               player2 = {remoteData?.PLAYER_TWO}
               childFunc={childFunc}
-              roomId = {id}
+              roomId = {roomID}
               onChange1 = {handleQazan1} 
               onChange2 = {handleQazan2}
               handlePlayer = {handlePlayer}

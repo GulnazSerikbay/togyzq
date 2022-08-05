@@ -2,11 +2,16 @@ import './Home.css';
 import { Outlet, Link } from "react-router-dom";
 import {Button} from 'react-bootstrap'
 //import ProgressButton from 'react-progress-button'
-import { useContext, useState } from 'react';
+import { useContext, useState, useCallback } from 'react';
 import ReactiveButton from 'reactive-button';
 import ornament from './assets/images/ornament.png';
-import Utils from './utils';
-import Chat1 from './Chat1.js'
+
+
+import Loading from "./Loading.js";
+
+//modal
+import Modal from "./components/Modal";
+import styles from "./components/Modal/nested.css";
 
 
 import { useNavigate } from 'react-router-dom';
@@ -29,6 +34,7 @@ console.log(firebase)
 function Home () {
    //if(board.full) return<Modal winner={player} freeze />
    const [state, setState] = useState('idle');
+   const [loading, setLoading] = useState(false);
 
    const onClickHandler = () => {
      setState('loading');
@@ -37,6 +43,72 @@ function Home () {
      }, 2000);
    };
 
+
+  const themes = ['light', 'dark', 'pinky', 'green']
+  const themeProps = {
+     light: {
+       background: '#373041',
+       textcolor: 'black',
+       navbar: 'rgba(88, 103, 221, 0.554)',
+       boardcolor: '#9a8572',
+       containercolor: '#ffdab9',
+       ballcolor: 'brown',
+       tuzdyqcolor: 'lightblue',
+       bordercolor: '#cca481'
+   },
+   
+   dark: {
+     background: 'black',
+     textcolor: 'black',
+     navbar: 'rgb(211, 211, 211)',
+     boardcolor: 'grey',
+     containercolor: 'rgb(206, 206, 206)',
+     ballcolor: 'rgb(57, 57, 57)',
+     tuzdyqcolor: 'rgb(251, 251, 251)',
+     bordercolor: 'grey'
+   },
+   
+   green: {
+     background: '#abd1c6',
+     textcolor: 'white',
+     navbar: '#f9bc60',
+     boardcolor: '#004643',
+     containercolor: '#abd1c6',
+     ballcolor: '#e16162',
+     tuzdyqcolor: '#f9bc60' ,
+     bordercolor: '#6a817b'
+   },
+   
+   pinky: {
+     background: '#fef6e4',
+     textcolor: 'white',
+     navbar: '#f3d2c1',
+     boardcolor:  '#f582ae',
+     containercolor: '#f3d2c1',
+     ballcolor: '#8bd3dd',
+     tuzdyqcolor: '#fffffe', 
+     bordercolor: '#7c6c63'
+   }}
+
+   const [theme, setTheme] = useState( JSON.parse(window.localStorage.getItem('data-theme')));
+   
+
+  const switchTheme = (newTheme) => {
+    console.log('theme', theme);
+
+    setTheme(newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme)
+    window.localStorage.setItem('data-theme', JSON.stringify(newTheme));
+  }
+   /* Modal things */
+   const [isOpen, setIsOpen] = useState(false);
+   const [isOpen2, setIsOpen2] = useState(false);
+ 
+   const handleOpen = useCallback(() => setIsOpen(true), []);
+   const handleOpen2 = useCallback(() => setIsOpen2(true), []);
+ 
+   const handleClose = useCallback(() => setIsOpen(false), []);
+   const handleClose2 = useCallback(() => setIsOpen2(false), []);
 
    // socket things
    /*const [username, setUsername] = useState("");
@@ -125,7 +197,8 @@ function createGame() {
       let gameObj = JSON.parse(JSON.stringify(initGame));
       //gameObj.currPlayer = userinput;
       console.log(gameObj)
-
+      
+      setLoading(true);
       try {
         console.log("username", userinput);
         let { roomID } = await createRoom({
@@ -139,6 +212,7 @@ function createGame() {
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     };
 
 
@@ -151,7 +225,7 @@ function createGame() {
   
       if (roomID.trim() === '' || name.trim() === '') return;
   
-      
+      setLoading(true);
       try {
         let response = await joinRoom(roomID, name);
         await setUsername(name);
@@ -161,6 +235,7 @@ function createGame() {
         console.log(error);
         alert('No such room! Please enter a valid Room ID');
       }
+      setLoading(false);
       
     };
 
@@ -198,7 +273,7 @@ function createGame() {
               </div> 
               <div className="separator svelte-1v7r4ll"></div> 
               
-              <div className="item svelte-1v7r4ll">LOL
+              <div className="item svelte-1v7r4ll" onClick = {handleOpen}>THEME 
 
               </div>
             </div>
@@ -224,7 +299,47 @@ function createGame() {
          
             </div>
             </div>
-           
+            <Modal
+              className={styles.ModalOverlay}
+              open={isOpen}
+              onDismiss={handleClose}
+            >
+            <Modal.Content className={styles.ModalContent}>
+              <h2 style = {{justifySelf: 'center'}}>Change Theme</h2>
+              <div className = "modalmain">
+                {themes.map((theme) =>
+                  <div className = {`themediv ${theme}`}
+                    onClick = {() => switchTheme(theme)}
+                      style = {{ background: themeProps[theme].background, 
+                                  color: themeProps[theme].textcolor,
+                                  border: `${themeProps[theme].bordercolor} solid 2px`,
+                                  borderRadius:  '10px'}}
+                  >
+                    <div className = {`themeboard ${theme}`}
+                          style = {{ background: themeProps[theme].boardcolor, 
+                                          color: themeProps[theme].navbartext, 
+                                          alignItems: 'center'}}>
+                       {theme}
+                    
+                    <div className = {`themecontainer ${theme}`}
+                          style = {{ background: themeProps[theme].containercolor, 
+                          }}
+                    >
+                      <div className = {`themeball ${theme}`}
+                            style = {{ background: themeProps[theme].ballcolor, 
+                                  }}>
+                                    <p></p>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <button onClick={handleClose}>Close</button>
+             
+            </Modal.Content>
+          </Modal>
+          <Loading visible={loading} />
         </div>
       );
   }
