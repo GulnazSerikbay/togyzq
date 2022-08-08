@@ -70,29 +70,35 @@
 
 .joinChatContainer {
   display: flex;
-  justify-content: center !important;
-  flex-direction: column;
+  height: 100%;
+  justify-content: center ;
   text-align: center;
+  flex-direction: column;
+  margin: 5% 0;
 }
 
 .joinChatContainer h3 {
   font-size: 2.5rem;
+  margin-top: 2%;
+  height: 10%;
   margin-bottom: 1rem;
 }
 .joinChatContainer input {
   width: 210px;
   height: 40px;
-  margin: 7px;
   border: 2px solid rgba(88, 103, 221, 0.554);
   border-radius: 5px;
   padding: 5px;
   font-size: 16px;
+  align-self: center;
+  margin: 1% 0;
+
 }
 
 .joinChatContainer button {
   width: 225px;
+  margin: 1% 0;
   height: 50px;
-  margin: 7px;
   border: none;
   border-radius: 5px;
   padding: 5px;
@@ -100,6 +106,7 @@
   background:  rgba(255, 193, 7, 1);
   color: black;
   cursor: pointer;
+  align-self: center;
 }
 
 .joinChatContainer button:hover {

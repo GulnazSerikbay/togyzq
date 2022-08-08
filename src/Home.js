@@ -16,7 +16,6 @@ import styles from "./components/Modal/nested.css";
 
 import { useNavigate } from 'react-router-dom';
 import { createRoom, joinRoom } from './functions/index';
-import { GameBoard } from './lib/game';
 import { GlobalContext } from './context/GlobalContext';
 
 //backend
@@ -43,6 +42,18 @@ function Home () {
      }, 2000);
    };
 
+  const openGame = async () => {
+    setLoading(true);
+    try {
+      await setTimeout(() => {
+        console.log("entering")
+      }, 3000);
+      history(`/gameoff`);
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  }
 
   const themes = ['light', 'dark', 'pinky', 'green']
   const themeProps = {
@@ -251,6 +262,17 @@ function createGame() {
       setIdpass(event.target.value );
     };
 
+    const [user1, setUser1] = useState('')
+
+    const handleU1Change = (event) => {
+      setUser1(event.target.value );
+    };
+    const [user2, setUser2] = useState('')
+
+    const handleU2Change = (event) => {
+      setUser2(event.target.value );
+    };
+
     return (
 
         <div className = "homepage text-light bg-transparent row">
@@ -258,12 +280,12 @@ function createGame() {
               <div className="logo svelte-1v7r4ll" ><Link to="/"><img src={ornament} alt="logo" style={{objectFit: 'cover', width: '10%'}}></img>TOGYZQ</Link></div> 
               
               <div className="menu svelte-1v7r4ll">
-              <div className="item blue svelte-1v7r4ll"><Link to="/game">OINAU: BETA</Link></div> 
+              <div className="item blue svelte-1v7r4ll"><Link to="/gameoff">OINAU: BETA</Link></div> 
               
               <div className="separator svelte-1v7r4ll"></div> 
               <div className="item svelte-1v7r4ll"><Link to="/rules">RULES</Link>
               </div> 
-              <div className="item svelte-1v7r4ll">LOL
+              <div className="item svelte-1v7r4ll">HELP
 			          <div className="sub svelte-1v7r4ll">
                   <a href="/" className="item svelte-1v7r4ll">WIKI</a> 
                   <a href="/" className="item svelte-1v7r4ll">DISCORD</a> 
@@ -280,10 +302,25 @@ function createGame() {
             </div>
            
 
-              
+     
         <div className='joinContainer '>
-        <div className="joinChatContainer">
-              
+        <div className="joinChatContainer col-6">
+          <h3>PLAY TOGYZQ: CLASSIC</h3>
+              <input
+                type="text"
+                placeholder="User1..."
+                onChange={handleU1Change}
+              />
+              <input
+                type="text"
+                placeholder="User2..."
+                onChange={handleU2Change}
+              />
+              <button onClick = {openGame}>PLAY</button>
+         
+            </div>
+        <div className="joinChatContainer col-6">
+             <h3>PLAY TOGYZQ: ONLINE</h3>
               <input
                 type="text"
                 placeholder="Username..."
@@ -298,7 +335,7 @@ function createGame() {
               <button onClick={onJoinRoomClick} lol='Oıynǵa kіrý'>Join room</button>
          
             </div>
-            </div>
+        </div>
             <Modal
               className={styles.ModalOverlay}
               open={isOpen}

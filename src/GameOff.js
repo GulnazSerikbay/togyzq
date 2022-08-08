@@ -1,5 +1,5 @@
 import './App.css';
-import Board from './components/Board.js';
+import BoardOff from './components/BoardOff.js';
 import User from './components/User.js';
 import Chat from './components/Chat.js';
 import { Link } from "react-router-dom";
@@ -21,7 +21,7 @@ import { GlobalContext } from './context/GlobalContext';
 import { database } from './.firebase';
 import { leaveRoom, sendData } from './functions';
 
-function Game(props) {
+function GameOff(props) {
     //const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const themes = ['light', 'dark', 'pinky', 'green']
     const themeProps = {
@@ -83,17 +83,19 @@ function Game(props) {
       window.localStorage.setItem('data-theme', JSON.stringify(newTheme));
     }
 
-    const { id } = useParams();
-    const roomID = id;
-    console.log("received params: ", id)
+    //const { id } = useParams();
+    //const roomID = id;
+    //console.log("received params: ", id)
 
-    const { state } = useContext(GlobalContext);
-    const [remoteData, setRemoteData] = useState(null);
-    const [wins, setWins] = useState({ me: 0, other: 0 });
+    //const { state } = useContext(GlobalContext);
+    //const [remoteData, setRemoteData] = useState(null);
+    //const [wins, setWins] = useState({ me: 0, other: 0 });
 
-    const history = useNavigate();
+    //const history = useNavigate();
 
-    
+    const user1 = "user1";
+    const user2 = "user2";
+
     /* Modal things */
     const [isOpen, setIsOpen] = useState(false);
     const [isOpen2, setIsOpen2] = useState(false);
@@ -112,7 +114,7 @@ function Game(props) {
    
 
 
-    useEffect(() => {
+    /*useEffect(() => {
       console.log("id in gamejs", id)
       
       // get live data from remote server and update it in state
@@ -121,7 +123,7 @@ function Game(props) {
         console.log("remoteData", snap.val());
       });
     }, [props.id]);
-
+*/
     /*
     //not sure if i need it
     useEffect(() => {
@@ -155,7 +157,7 @@ function Game(props) {
       }
     }, [remoteData?.draw, remoteData?.winner, state.username]);
   */
-
+/*
     const mark = async (index) => {
       if (remoteData._turn !== state.username) {
         console.log('It is not your turn');
@@ -212,31 +214,14 @@ function Game(props) {
       }
     }, [remoteData?.draw, remoteData?.winner, state.username]);
   */
+ 
     //here
-    const restart = async () => {
-      const data = {
-        ...remoteData,
-        board: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        winner: null,
-        draw: false,
-      };
-  
-      try {
-        await sendData(roomID, data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+
 
     //here
-    const copyRoomID = () => {
-      navigator.clipboard
-        .writeText(roomID)
-        .then((res) => alert('ID copied!'))
-        .catch((e) => alert('Could not copy ID. Please copy it manually'));
-    };
+   
 
-
+/*
     //here
     useEffect(() => {
       window.onbeforeunload = (event) => {
@@ -250,10 +235,10 @@ function Game(props) {
       };
     }, [])
 
-  
+  */
 
   
-    const childFunc = useRef(null)
+   
 
 
     const [board, setBoard] = useState({
@@ -305,25 +290,7 @@ function Game(props) {
     }
     //if(board.full) return<Modal winner={player} freeze />
         
-    const [isOpenWin, setIsOpenWin] = useState(true);
- 
-    const handleOpenWin = useCallback(() => setIsOpenWin(true), []);
-  
-    const handleCloseWin = useCallback(() => setIsOpenWin(false), []);
- 
-   const ModalWin = () => {
-     return (
-           <Modal
-               className={styles.ModalOverlay}
-               open={isOpenWin}
-           >
-             <Modal.Content className={styles.ModalContent}>
-               <h2 style = {{justifySelf: 'center'}}>! UNDER CONSTRUCTION !</h2>
-               <button onClick={handleCloseWin}>OK, got it</button>
-             </Modal.Content>
-         </Modal>
-     );
-   }
+    const childFunc = useRef(null)
 
     return (
         <div className='wrapper row'> 
@@ -331,16 +298,10 @@ function Game(props) {
               <div className="logo svelte-1v7r4ll" ><Link to="/"><img src={ornament} alt="logo" style={{objectFit: 'cover', width: '10%'}}></img>TOGYZQ</Link></div> 
               
               <div className="menu svelte-1v7r4ll">
-              {remoteData && remoteData.PLAYER_ONE && remoteData.PLAYER_TWO ? null : (
-            <>
-              <div className="item  svelte-1v7r4ll">room ID is {roomID}</div> 
-          
-              <div className="item svelte-1v7r4ll" onClick={copyRoomID}>Copy Room ID
+              <div className="item svelte-1v7r4ll"><Link to="/rules">RULES</Link>
               </div> 
-              </>
-          )}
               <div className="separator svelte-1v7r4ll"></div>
-              <div className="item svelte-1v7r4ll" onClick={leave}>LEAVE
+              <div className="item svelte-1v7r4ll" onClick={() => childFunc.restart()}>RESTART
 			          <div className="sub svelte-1v7r4ll">
                   <a href="/" className="item svelte-1v7r4ll">WIKI</a> 
                   <a href="/" className="item svelte-1v7r4ll">DISCORD</a> 
@@ -359,18 +320,14 @@ function Game(props) {
             </div>
          
 
-         {remoteData?.winner || remoteData?.draw ? (
-          <button onClick={restart}>Restart</button>
-        ) : null}
+    
+       
+        
 
 
-          <Board 
-              remoteData = {remoteData}
+          <BoardOff 
               freeze = {isOpen}
-              player1 = {remoteData?.PLAYER_ONE}
-              player2 = {remoteData?.PLAYER_TWO}
               childFunc={childFunc}
-              roomId = {roomID}
               onChange1 = {handleQazan1} 
               onChange2 = {handleQazan2}
               handlePlayer = {handlePlayer}
@@ -378,19 +335,17 @@ function Game(props) {
   
           <div className='rightside col'> 
             <User id="0" 
-                name={remoteData?.PLAYER_ONE} 
-                you={state.username===remoteData?.PLAYER_ONE ? true : false} 
+                name={user1} 
                 score={board.qazan1} 
                 playing = {board.currPlayer===0 ? true: false}
-                undo = {state.username === remoteData?.PLAYER_ONE ? childFunc.current() : null}
+                //undo = {childFunc.current()}
             />
-            <Chat roomID={roomID} />
+            <Chat />
             <User id="1" 
-                  name={remoteData?.PLAYER_TWO ? remoteData?.PLAYER_TWO : 'Waiting...'} 
-                  you={state.username===remoteData?.PLAYER_ONE ? false : true} 
+                  name={user2} 
                   score={board.qazan2} 
                   playing = {board.currPlayer===1 ? true: false}
-                  undo = {state.username === remoteData?.PLAYER_TWO ? childFunc.current() : null}
+                  //undo = {childFunc.current()}
             />
             <Modal
               className={styles.ModalOverlay}
@@ -432,35 +387,7 @@ function Game(props) {
              
             </Modal.Content>
           </Modal>
-          <ModalWin/>
           </div>
         </div>);
 }
-export default Game;
-
-/*
-<Modal
-className={styles.ModalOverlay}
-open={isOpen}
-onDismiss={handleClose}
->
-<Modal.Content className={styles.ModalContent}>
-<h2>Change Theme</h2>
-<button  onClick={handleOpen2}>
- Restart
-</button>
-<button onClick={handleClose}>Close</button>
-<Modal
-  className={styles.ModalOverlay2}
-  open={isOpen2}
-  onDismiss={handleClose2}
->
-  <Modal.Content className={styles.ModalContent2}>
-    <h3>I'm a fancy Nested Modal!</h3>
-    <button onClick={handleClose2}>Close</button>
-  </Modal.Content>
-</Modal>
-</Modal.Content>
-</Modal>
-
-*/
+export default GameOff;

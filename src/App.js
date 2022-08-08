@@ -1,6 +1,7 @@
 import './App.css';
 import Game from './Game.js';
 import Game1 from './Game1.js';
+import GameOff from './GameOff.js';
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./Layout.js";
@@ -36,6 +37,7 @@ function App() {
           <Route path="play/" element={<Mock/>} exact />
           <Route path="rules" element={<Rules />} />
           <Route path="game1" element={<Game1 />} />
+          <Route path="gameoff" element={<GameOff />} />
           <Route path="loading" element={<Loading />} />
           
 

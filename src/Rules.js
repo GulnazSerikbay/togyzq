@@ -20,12 +20,12 @@ function Rules () {
               <div class="logo svelte-1v7r4ll" ><Link to="/"><img src={ornament} alt="logo" style={{objectFit: 'cover', width: '10%'}}></img>TOGYZQ</Link></div> 
               
               <div className="menu svelte-1v7r4ll">
-              <div className="item blue svelte-1v7r4ll"><a href="game">OINAU</a></div> 
+              <div className="item blue svelte-1v7r4ll"><Link to="/gameoff">OINAU</Link></div> 
               
               <div className="separator svelte-1v7r4ll"></div> 
               <div className="item svelte-1v7r4ll"><a href="rules" className="item svelte-1v7r4ll">RULES</a>
               </div> 
-              <div className="item svelte-1v7r4ll">LOL
+              <div className="item svelte-1v7r4ll">HELP
 			          <div className="sub svelte-1v7r4ll">
                   <a href="/" className="item svelte-1v7r4ll">WIKI</a> 
                   <a href="/" className="item svelte-1v7r4ll">DISCORD</a> 
@@ -35,7 +35,7 @@ function Rules () {
               </div> 
               <div className="separator svelte-1v7r4ll"></div> 
               
-              <div className="item svelte-1v7r4ll">LOGIN
+              <div className="item svelte-1v7r4ll">THEME
 
               </div>
             </div>

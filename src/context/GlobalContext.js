@@ -17,6 +17,7 @@ function ContextProvider(props) {
     });
   };
 
+  
   return (
     <GlobalContext.Provider value={{ state, setUsername }}>
       {props.children}

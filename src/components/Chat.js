@@ -18,6 +18,7 @@ function Chat(props) {
     const [chat, setChat] = useState([]);
     const { state } = useContext(GlobalContext);
 
+
     useEffect(() => {
         (async () => {
           try {
@@ -26,7 +27,7 @@ function Chat(props) {
             console.log(error);
           }
         })();
-      }, [props.roomID]);
+      }, [props.roomID]) 
 
     useEffect(() => {
         firestore
