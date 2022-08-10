@@ -303,7 +303,7 @@ function createGame() {
            
 
      
-        <div className='joinContainer '>
+        <div className='joinContainer row'>
         <div className="joinChatContainer col-6">
           <h3>PLAY TOGYZQ: CLASSIC</h3>
               <input

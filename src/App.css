@@ -51,9 +51,35 @@
   margin: 0px 0px;
   display: flex;
   justify-content: center;
-
   font-family: 'Orbitron', sans-serif;
 }
+
+.alternative {
+  visibility: hidden;
+  position: absolute;
+  color: white;
+  left: 0;
+  right: 0;
+  top: 40%;
+  bottom: 0;
+  margin: auto;
+  text-align: center;
+}
+
+
+
+@media only screen and (max-width: 1000px) {
+  .wrapper {
+    display: none;
+  }
+  .alternative {
+    visibility: visible;
+  }
+}
+
+
+
+
 
 .rightside {
   width: 25vw;
@@ -75,6 +101,7 @@
   text-align: center;
   flex-direction: column;
   margin: 5% 0;
+  min-width: 500px;
 }
 
 .joinChatContainer h3 {
@@ -82,6 +109,9 @@
   margin-top: 2%;
   height: 10%;
   margin-bottom: 1rem;
+  align-self: center;
+  max-width: 80vw;
+  
 }
 .joinChatContainer input {
   width: 210px;

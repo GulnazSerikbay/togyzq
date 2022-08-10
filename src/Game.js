@@ -326,6 +326,8 @@ function Game(props) {
    }
 
     return (
+      <>
+      <div className="alternative"><h3>SWITCH TO PC!</h3></div>
         <div className='wrapper row'> 
           <div className="banner svelte-1v7r4ll col-12">
               <div className="logo svelte-1v7r4ll" ><Link to="/"><img src={ornament} alt="logo" style={{objectFit: 'cover', width: '10%'}}></img>TOGYZQ</Link></div> 
@@ -434,7 +436,9 @@ function Game(props) {
           </Modal>
           <ModalWin/>
           </div>
-        </div>);
+        </div>
+        </>
+        );
 }
 export default Game;
 
